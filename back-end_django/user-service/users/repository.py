@@ -11,3 +11,9 @@ class UserRepository:
         cursor = self.__Users.find({})
         users = [user async for user in cursor]
         return users
+    
+    async def get_user_by_email(self, email):
+        user = await self.__Users.find_one({
+            "email": email
+        })
+        return user
