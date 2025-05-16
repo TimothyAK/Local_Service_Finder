@@ -15,5 +15,12 @@ async def getUsers(email):
 
 # Create your views here.
 class UserController(APIView):
-    async def get(self, request, id=None):
-        asyncio.run()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__UserRepository = UserRepository()
+
+    async def get(self, request):
+        users = self.__UserRepository.get_users()
+        return JsonResponse({
+            'users': users
+        })

@@ -1,20 +1,16 @@
-from .models import User
+from .models import Users
 import json
 
 class UserRepository:
-    def create_user(username, email, password):
-        user = User(
-            username=username,
-            email=email,
-            password=password
-        )
+    def __init__(self):
+        self.__Users = Users().getUsersCollection()
 
-        user.save()
+    async def create_user(self, newUserDoc):
+        user = await self.__Users.insert_one(newUserDoc)
 
         return user.to_json()
 
-    def get_users(email):
-        users = User.objects.all()
-        for user in users:
-            print(user.to_json())
-        return "Hello from repo"
+    async def get_users(self):
+        cursor = self.__Users.find({})
+        users = [user for user in cursor]
+        return users
