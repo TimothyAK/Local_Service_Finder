@@ -1,0 +1,32 @@
+.login-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fbf9e3; 
+  padding: 20px;
+}
+
+.login-title {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+}
+
+.login-form {
+  position: relative;
+  z-index: 1;
+}

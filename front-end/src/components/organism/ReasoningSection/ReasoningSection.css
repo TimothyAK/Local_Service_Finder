@@ -1,0 +1,16 @@
+.reasoning-section {
+    border: 1px solid #122c4f;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .section-title {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .reasoning-content {
+    color: #555;
+    line-height: 1.5;
+  }

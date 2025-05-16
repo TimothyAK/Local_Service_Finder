@@ -1,0 +1,14 @@
+.signup-redirect {
+    margin-top: 20px;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+  }
+  
+  .signup-link {
+    font-weight: bold;
+    color: white;
+    text-decoration: underline;
+    margin-left: 5px;
+  }
+  
