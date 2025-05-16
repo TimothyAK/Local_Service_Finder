@@ -1,0 +1,29 @@
+.homepage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fbf9e3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage-header {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.homepage-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; 
+  width: 100%;
+  max-width: 800px; 
+  padding: 20px;
+}

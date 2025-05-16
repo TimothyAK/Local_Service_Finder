@@ -1,0 +1,19 @@
+.btn {
+    background-color: #F0D637;
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 9999px; 
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #F0D637; /* slightly lighter on hover */
+  }
+  

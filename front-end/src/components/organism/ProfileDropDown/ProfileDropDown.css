@@ -1,0 +1,24 @@
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .profile-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-button .material-icons {
+    font-size: 32px;
+    color: #555;
+    transition: transform 0.2s;
+  }
+  
+  .profile-button:hover .material-icons {
+    transform: scale(1.1);
+  }
