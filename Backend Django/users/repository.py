@@ -12,5 +12,5 @@ class UserRepository:
 
     async def get_users(self):
         cursor = self.__Users.find({})
-        users = [user for user in cursor]
+        users = [user async for user in cursor]
         return users

@@ -1,8 +1,4 @@
-from django.http import JsonResponse, HttpResponse
-import json
-import asyncio
-
-from rest_framework.views import APIView
+from adrf.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
@@ -20,7 +16,7 @@ class UserController(APIView):
         self.__UserRepository = UserRepository()
 
     async def get(self, request):
-        users = self.__UserRepository.get_users()
-        return JsonResponse({
+        users = await self.__UserRepository.get_users()
+        return Response({
             'users': users
         })
