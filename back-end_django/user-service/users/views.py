@@ -11,9 +11,9 @@ class SignUpController(APIView):
     async def post(self, request):
         try:
             data = request.data
-            if (data["username"] == None or data["username"] == "" or 
-                data["email"] == None or data["email"] == "" or 
-                data["password"] == None or data["password"] == ""):
+            if (not data["username"] or not isinstance(data["username"], str) or 
+                not data["email"] or not isinstance(data["email"], str) or 
+                not data["password"] or not isinstance(data["password"], str)):
                 raise Exception("Invalid Request Body")
             
             await self.__user_service.registerUser(data)
@@ -36,4 +36,36 @@ class SignUpController(APIView):
             return Response({
                 "message": "Internal server error"
             }, status=500)
+        
+class LoginController(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__user_service = UserService()
+
+    async def post(self, request):
+        try:
+            data = request.data
+            if (not data["email"] or not isinstance(data["email"], str) or 
+                not data["password"] or not isinstance(data["password"], str)):
+                raise Exception("Invalid Request Body")
             
+            userid = await self.__user_service.verifyUser(data)
+
+            return Response({
+                "userid": str(userid)
+            })
+        except Exception as e:
+            msg = e.args[0]
+            if(msg == "password" or msg == "email"):
+                return Response({
+                    "message": "Invalid request body"
+                }, status=400)
+            
+            if msg:
+                return Response({
+                    "message": e.args[0]
+                }, status=400)
+            
+            return Response({
+                "message": "Internal server error"
+            }, status=500)

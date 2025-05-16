@@ -23,3 +23,20 @@ class UserService:
             await self.__user_repository.create_user(newUserData)
         except Exception as e:
             raise e
+        
+    async def verifyUser(self, userCredentials):
+        try:
+            user = await self.__user_repository.get_user_by_email(userCredentials["email"])
+            if user == None:
+                raise Exception("User not found")
+            
+            pwdValid = bcrypt.checkpw(
+                password = userCredentials["password"].encode("utf-8"),
+                hashed_password = user["password"].encode("utf-8")
+            )
+            if not pwdValid:
+                raise Exception("Invalid password")
+            
+            return user["_id"]
+        except Exception as e:
+            raise e
