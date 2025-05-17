@@ -10,3 +10,7 @@
 - ```git remote add LSF https://github.com/TimothyAK/Local_Service_Finder```
 - ```git push LSF {YOUR_PROJECT_BRANCH_NAME}```
 - Do pull request in the repository
+
+## Steps to run Django User Service
+- From the ```Local_Service_Finder``` folder, do ```cd back-end_django\user_service```
+- Run ```uvicorn user_service.asgi:application```
