@@ -1,3 +1,3 @@
-.env
-/user-service/local_service_finder/__pycache__
-/user-service/users/__pycache__
+/*/.env
+/*/*/__pycache__
+/*/*/__pycache__

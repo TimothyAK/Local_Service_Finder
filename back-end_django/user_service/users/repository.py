@@ -17,3 +17,13 @@ class UserRepository:
             "email": email
         })
         return user
+    
+    async def update_user_by_email(self, email, newPassword):
+        result = await self.__Users.update_one({
+            "email": email
+        }, {
+            "$set": {
+                "password": newPassword
+            }
+        })
+        return result.modified_count
