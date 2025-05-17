@@ -12,7 +12,7 @@ class UserService:
                 if user["username"] == newUserData["username"]:
                     raise Exception("Username already exist")
                 if user["email"] == newUserData["email"]:
-                    raise Exception("Email already exist")
+                    raise Exception("Email already exist", 400)
 
             passwordBytes = newUserData["password"].encode('utf-8')
             salt = bcrypt.gensalt(rounds=12)
@@ -28,31 +28,38 @@ class UserService:
         try:
             user = await self.__user_repository.get_user_by_email(userCredentials["email"])
             if user == None:
-                raise Exception("User not found")
+                raise Exception("User not found", 404)
             
             pwdValid = bcrypt.checkpw(
                 password = userCredentials["password"].encode("utf-8"),
                 hashed_password = user["password"].encode("utf-8")
             )
             if not pwdValid:
-                raise Exception("Invalid password")
+                raise Exception("Invalid password", 400)
             
             return user["_id"]
         except Exception as e:
             raise e
         
-    async def resetPassword(self, email, newPassword):
+    async def resetPassword(self, resetPasswordData):
         try:
-            user = await self.__user_repository.get_user_by_email(email)
+            user = await self.__user_repository.get_user_by_email(resetPasswordData["email"])
             if user == None:
-                raise Exception("User not found")
+                raise Exception("User not found", 404)
+            
+            pwdValid = bcrypt.checkpw(
+                password = resetPasswordData["password"].encode("utf-8"),
+                hashed_password = user["password"].encode("utf-8")
+            )
+            if not pwdValid:
+                raise Exception("Invalid password", 400)
 
-            newPasswordBytes = newPassword.encode('utf-8')
+            newPasswordBytes = resetPasswordData['newPassword'].encode('utf-8')
             salt = bcrypt.gensalt(rounds=12)
             hash = bcrypt.hashpw(newPasswordBytes, salt)
 
-            newPassword = hash.decode('utf-8')
+            resetPasswordData['newPassword'] = hash.decode('utf-8')
             
-            self.__user_repository.update_user_by_email(email, newPassword)
+            await self.__user_repository.update_user_by_email(resetPasswordData["email"], resetPasswordData['newPassword'])
         except Exception as e:
             raise e
