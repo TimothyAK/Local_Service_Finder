@@ -40,3 +40,19 @@ class UserService:
             return user["_id"]
         except Exception as e:
             raise e
+        
+    async def resetPassword(self, email, newPassword):
+        try:
+            user = await self.__user_repository.get_user_by_email(email)
+            if user == None:
+                raise Exception("User not found")
+
+            newPasswordBytes = newPassword.encode('utf-8')
+            salt = bcrypt.gensalt(rounds=12)
+            hash = bcrypt.hashpw(newPasswordBytes, salt)
+
+            newPassword = hash.decode('utf-8')
+            
+            self.__user_repository.update_user_by_email(email, newPassword)
+        except Exception as e:
+            raise e

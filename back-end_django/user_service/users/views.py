@@ -69,3 +69,18 @@ class LoginController(APIView):
             return Response({
                 "message": "Internal server error"
             }, status=500)
+        
+class ResetPasswordController(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__user_service = UserService()
+
+    async def post(self, request):
+        try:
+            data = request.data
+            if (not data["email"] or not isinstance(data["email"], str) or 
+                not data["password"] or not isinstance(data["password"], str)):
+                raise Exception("Invalid Request Body")
+
+        except Exception as e:
+            msg = e.args[0]
