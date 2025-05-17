@@ -63,3 +63,31 @@ class UserService:
             await self.__user_repository.update_user_by_email(resetPasswordData["email"], resetPasswordData['newPassword'])
         except Exception as e:
             raise e
+        
+    async def sendResetPasswordEmail(self, email):
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+
+        sender_email = "debooker.emailservice@gmail.com"
+        receiver_email = email
+        password = "pqihxngqdqrczads"
+
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Reset Password Request"
+        message["From"] = sender_email
+        message["To"] = receiver_email
+
+        try:
+            with open("./htmls/email_content.html", "r", encoding="utf-8") as file:
+                html_content = file.read()
+                
+            html_part = MIMEText(html_content, "html")
+            message.attach(html_part)
+
+            # Send the email using Gmail SMTP
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message.as_string())
+        except Exception as e:
+            raise e
