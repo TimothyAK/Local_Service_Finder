@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import MapDisplay from '../../organism/MapDisplay/MapDisplay';
-import Icon from '../../atoms/Icon/Icon';
 import './ServicePage.css';
 
 const serviceIcons = {
@@ -20,10 +19,7 @@ const ServicePage = () => {
   return (
     <div className="service-page">
       <div className="service-layout">
-        <div className="map-container">
           <MapDisplay serviceType={serviceType} />
-        </div>
-
         <div className="service-info-panel">
           <div className="service-icon-wrapper">
             <i className="material-icons service-icon">
@@ -38,7 +34,7 @@ const ServicePage = () => {
         onClick={() => navigate('/')} 
         className="back-button"
       >
-        ← Back to Service Sinder
+        ← Back to Fervice Sinder
       </button>
     </div>
   );
