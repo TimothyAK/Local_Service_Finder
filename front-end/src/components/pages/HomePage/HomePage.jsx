@@ -1,19 +1,40 @@
-import React from "react";
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Title from "../../atoms/Title/Title.js";
 import SearchBar from "../../molecules/SearchBar/SearchBar.jsx";
 import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
+import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import "./homepage.css"; 
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [showSignOutDialog, setShowSignOutDialog] = useState(false);
+  const [showPassDialog, setShowPassDialog] = useState(false);
   const navigate = useNavigate();
+
+  const handleConfirmSignOut = () =>{
+    setShowSignOutDialog(false)
+    navigate('/login')
+  }
+
+  const handleCancelSignOut = () =>{
+    setShowSignOutDialog(false)
+  }
+
+  const handleConfirmResetPass = () =>{
+    setShowPassDialog(false)
+    navigate('/forgot-password')
+  }
+
+  const handleCancelResetPass = () =>{
+    setShowPassDialog(false)
+  }
   
   const userData = {
     name: "Joshua Darren Chandra",
-    onSignOut: () => console.log("Signing out..."),
-    onChangePassword: () => console.log("Changing password..."),
+    onSignOut: () => setShowSignOutDialog(true),
+    onChangePassword: () => setShowPassDialog(true),
     onDeleteAccount: () => console.log("Deleting account...")
   };
 
@@ -42,6 +63,27 @@ const Homepage = () => {
         />
         <CategoryList />
       </div>
+
+      {showSignOutDialog && (
+        <WarningDialog
+          message="Are you sure you want to sign out?"
+          subMessage="You will need to log in again to access your account."
+          onConfirm={handleConfirmSignOut}
+          onCancel={handleCancelSignOut}
+          confirmText="Sign Out"
+        />
+      )}
+
+      {showPassDialog && (
+        <WarningDialog
+          message="Are you sure you want to change password?"
+          subMessage="You will need to log in again to access your account."
+          onConfirm={handleConfirmResetPass}
+          onCancel={handleCancelResetPass}
+          confirmText="Confirm"
+        />
+      )}
+
     </div>
   );
 };
