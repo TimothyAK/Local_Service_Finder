@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import InputGroup from '../../molecules/InputGroup/InputGroup';
 import NextButton from '../../molecules/NextButton/NextButton';
 import './ForgotPassForm.css';
+import { UserContext } from '../../../context/UseContext.jsx';
 
 const ForgotPassForm = () => {
+  const { userEmail, setUserEmail } = useContext(UserContext)
   const navigate = useNavigate();
 
   const handleReset = (e) => {
@@ -20,7 +22,9 @@ const ForgotPassForm = () => {
       <InputGroup
         id="email"
         type="email"
-        placeholder="Enter your email"
+        placeholder="Enter Your Email"
+        value={userEmail}
+        onChange={(e) => setUserEmail(e.target.value)}
         required
       />
 
