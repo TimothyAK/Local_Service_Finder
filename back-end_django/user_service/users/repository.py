@@ -27,3 +27,9 @@ class UserRepository:
             }
         })
         return result.modified_count
+    
+    async def delete_user_by_email(self, email):
+        result = await self.__Users.delete_one({
+            "email": email
+        })
+        return result.deleted_count

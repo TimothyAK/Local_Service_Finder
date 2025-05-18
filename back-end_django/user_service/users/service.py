@@ -100,3 +100,20 @@ class UserService:
                 server.sendmail(sender_email, receiver_email, message.as_string())
         except Exception as e:
             raise e
+        
+    async def deleteUser(self, email, password):
+        try:
+            user = await self.__user_repository.get_user_by_email(email)
+            if user == None:
+                raise Exception("User not found", 404)
+            
+            pwdValid = bcrypt.checkpw(
+                password = password.encode("utf-8"),
+                hashed_password = user["password"].encode("utf-8")
+            )
+            if not pwdValid:
+                raise Exception("Invalid password", 400)
+
+            await self.__user_repository.delete_user_by_email(email)
+        except Exception as e:
+            raise e
