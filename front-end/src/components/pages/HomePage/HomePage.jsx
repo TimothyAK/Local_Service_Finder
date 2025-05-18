@@ -108,7 +108,7 @@ const Homepage = () => {
       {showDeleteDialog && (
         <WarningDialog
           message="Are you sure you want to delete your account?"
-          subMessage="If you delete your"
+          subMessage="Changes can't be undone"
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
           confirmText="Delete"
@@ -133,12 +133,12 @@ const Homepage = () => {
           confirmText="Delete Account"
         >
           <InputGroup
-            label="Password"
             id="delete-password"
             type="password"
             placeholder="Enter your password"
             value={deletePassword}
             onChange={(e) => setDeletePassword(e.target.value)}
+            className="confirm-password-input"
           />
         </WarningDialog>
       )}

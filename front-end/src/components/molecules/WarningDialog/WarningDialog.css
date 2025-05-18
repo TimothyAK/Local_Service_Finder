@@ -53,4 +53,33 @@
   .confirm-btn:hover {
     background-color: #dd3333;
   }
-  
+
+.dialog-children {
+  margin: 15px 0;
+}
+
+.dialog-children .input-group {
+  width: 100%;
+}
+
+.dialog-children .input-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #122c4f;
+  border-radius: 30px;
+  font-size: 14px;
+  color: #122c4f;
+  box-sizing: border-box;
+}
+
+.dialog-children .input-group input::placeholder {
+  color: #122c4f;
+  opacity: 0.7;
+}
+
+.dialog-children .input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #122c4f;
+  text-align: left;
+}
