@@ -12,5 +12,9 @@
 - Do pull request in the repository
 
 ## Steps to run Django User Service
-- From the ```Local_Service_Finder``` folder, do ```cd back-end_django\user_service```
-- Run ```uvicorn user_service.asgi:application```
+- From the ```Local_Service_Finder``` folder, do ```cd back-end_django```
+- Create python virtual environment, ```python -m venv venv```
+- Activate the virtual environment, ```venv\Scripts\activate.bat```
+- Install django project requirements, ```pip install -r requirements.txt```
+- Move to ```user_service``` directory, ```cd user_service```
+- Run the server, ```uvicorn user_service.asgi:application```
