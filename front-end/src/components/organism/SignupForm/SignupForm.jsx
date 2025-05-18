@@ -51,6 +51,7 @@ const SignUpForm = () => {
         placeholder="Enter your password"
         value={userPassword}
         onChange={(e) => setUserPassword(e.target.value)}
+        minLength={6}
         required
       />
 
