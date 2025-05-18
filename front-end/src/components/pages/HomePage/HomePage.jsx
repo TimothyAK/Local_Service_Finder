@@ -24,7 +24,7 @@ const Homepage = () => {
 
   const handleConfirmResetPass = () =>{
     setShowPassDialog(false)
-    navigate('/forgot-password')
+    navigate('/reset-pass')
   }
 
   const handleCancelResetPass = () =>{
