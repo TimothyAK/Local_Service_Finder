@@ -1,18 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputGroup from '../../molecules/InputGroup/InputGroup';
 import NextButton from '../../molecules/NextButton/NextButton';
+import { requestResetAPI } from '../../../api/userAPI';
 import './ForgotPassForm.css';
-import { UserContext } from '../../../context/UseContext.jsx';
 
 const ForgotPassForm = () => {
-  const { userEmail, setUserEmail } = useContext(UserContext)
+  const [userEmail, setUserEmail] = useState("")
   const navigate = useNavigate();
 
-  const handleReset = (e) => {
+  const handleReset = async (e) => {
     e.preventDefault();
-    console.log("Sending reset link...");
-    navigate('/login');
+    try {
+        console.log("Sending reset link...");
+        const requestResetResponse = await requestResetAPI(userEmail)
+        localStorage.setItem("requestId", userEmail)
+        navigate('/login');
+    } catch (err) {
+        // Display error message. Bisa dipake buat show error di form.
+        console.log(err.response.data.message)
+    }
   };
 
   return (

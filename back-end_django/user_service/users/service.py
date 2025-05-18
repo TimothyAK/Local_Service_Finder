@@ -14,7 +14,7 @@ class UserService:
             existingUsers = await self.__user_repository.get_users()
             for user in existingUsers:
                 if user["username"] == newUserData["username"]:
-                    raise Exception("Username already exist")
+                    raise Exception("Username already exist", 400)
                 if user["email"] == newUserData["email"]:
                     raise Exception("Email already exist", 400)
 
@@ -41,7 +41,11 @@ class UserService:
             if not pwdValid:
                 raise Exception("Invalid password", 400)
             
-            return user["_id"]
+            return { 
+                "userid": user["_id"], 
+                "username": user["username"],
+                "email": user["email"]
+            }
         except Exception as e:
             raise e
         
@@ -71,7 +75,7 @@ class UserService:
     async def sendResetPasswordEmail(self, email):
         sender_email = "debooker.emailservice@gmail.com"
         receiver_email = email
-        password = "pqihxngqdqrczads"
+        password = os.getenv("EMAIL_APP_PASSWORD")
 
         message = MIMEMultipart("alternative")
         message["Subject"] = "Reset Password Request"
