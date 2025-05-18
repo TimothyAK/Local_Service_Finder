@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Title from "../../atoms/Title/Title.js";
 import SearchBar from "../../molecules/SearchBar/SearchBar.jsx";
@@ -6,14 +6,21 @@ import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import "./homepage.css"; 
+import { UserContext } from '../../../context/UserContext.jsx';
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [showPassDialog, setShowPassDialog] = useState(false);
   const navigate = useNavigate();
+  const { userDetails, setUserDetails } = useContext(UserContext)
+
+  useEffect(() => {
+    if(JSON.stringify(userDetails) == JSON.stringify({})) navigate("/login")
+  }, [])
 
   const handleConfirmSignOut = () =>{
+    setUserDetails({})
     setShowSignOutDialog(false)
     navigate('/login')
   }
@@ -24,6 +31,7 @@ const Homepage = () => {
 
   const handleConfirmResetPass = () =>{
     setShowPassDialog(false)
+    localStorage.setItem("requestId", userDetails.email)
     navigate('/reset-pass')
   }
 
@@ -32,7 +40,7 @@ const Homepage = () => {
   }
   
   const userData = {
-    name: "Joshua Darren Chandra",
+    name: userDetails.username,
     onSignOut: () => setShowSignOutDialog(true),
     onChangePassword: () => setShowPassDialog(true),
     onDeleteAccount: () => console.log("Deleting account...")

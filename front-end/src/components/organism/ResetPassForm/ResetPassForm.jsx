@@ -1,18 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import InputGroup from '../../molecules/InputGroup/InputGroup.jsx';
 import NextButton from '../../molecules/NextButton/NextButton.jsx';
+import { resetPasswordAPI } from '../../../api/userAPI.js';
 import './ResetPassForm.css';
-import { UserContext } from '../../../context/UseContext.jsx';
 
 const ResetPassForm = () => {
-  const { userEmail, setUserEmail } = useContext(UserContext)
-  const navigate = useNavigate(); 
+    const [userEmail, setUserEmail] = useState("")
+    const [userPassword, setUserPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("")
+  const navigate = useNavigate();
 
-  const handleReset = (e) => {
+  useEffect(() => {
+    const requestId = localStorage.getItem("requestId")
+    if(!requestId || requestId == "") navigate("/login")
+    setUserEmail(requestId) // RequestId is the same as user email
+  }, [])
+
+  const handleReset = async (e) => {
     e.preventDefault();
-    console.log("Resetting password...");
-    navigate('/login');
+    try {
+        console.log("Resetting password...");
+        const resetPasswordResponse = await resetPasswordAPI(userEmail, userPassword, newPassword);
+        localStorage.removeItem("requestId");
+        navigate('/login');
+    } catch (err) {
+        // Display error message. Bisa dipake buat show error di form.
+        console.log(err.response.data.message)
+    }
   };
 
   return (
@@ -29,9 +44,11 @@ const ResetPassForm = () => {
       />
 
       <InputGroup
-        id="new-password"
+        id="password"
         type="password"
         placeholder="Password"
+        value={userPassword}
+        onChange={(e) => setUserPassword(e.target.value)}
         required
       />
 
@@ -39,6 +56,8 @@ const ResetPassForm = () => {
         id="new-password"
         type="password"
         placeholder="Enter new password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
         required
       />
 
