@@ -27,3 +27,9 @@
   max-width: 800px; 
   padding: 20px;
 }
+
+.confirm-password-input {
+  margin-top: 0; 
+  margin-bottom: 0;
+  padding: 8px;
+}
