@@ -1,4 +1,8 @@
 import bcrypt
+import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from .repository import UserRepository
 
 class UserService:
@@ -65,10 +69,6 @@ class UserService:
             raise e
         
     async def sendResetPasswordEmail(self, email):
-        import smtplib
-        from email.mime.text import MIMEText
-        from email.mime.multipart import MIMEMultipart
-
         sender_email = "debooker.emailservice@gmail.com"
         receiver_email = email
         password = "pqihxngqdqrczads"
@@ -79,7 +79,12 @@ class UserService:
         message["To"] = receiver_email
 
         try:
-            with open("./htmls/email_content.html", "r", encoding="utf-8") as file:
+            user = await self.__user_repository.get_user_by_email(email)
+            if user == None:
+                raise Exception("User not found", 404)
+            
+            html_path = os.path.join(os.path.dirname(__file__), "htmls", "email_content.html")
+            with open(html_path, "r", encoding="utf-8") as file:
                 html_content = file.read()
                 
             html_part = MIMEText(html_content, "html")

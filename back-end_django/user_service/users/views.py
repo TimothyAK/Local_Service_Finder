@@ -89,13 +89,44 @@ class ResetPasswordController(APIView):
                 "message": "Password has been updated"
             })
         except Exception as e:
-            print(e)
             msg = e.args[0]
             if (msg == "email" or msg == "password" or msg == "newPassword"):
                 return Response({
                     "message": "Invalid request body"
                 }, status=400)
             
+            try:
+                if msg and e.args[1]:
+                    return Response({
+                        "message": e.args[0]
+                    }, status=e.args[1])
+            except IndexError:
+                return Response({
+                    "message": "Internal server error"
+                }, status=500)
+            
+class RequestResetController(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__user_service = UserService()
+
+    async def post(self, request):
+        try:
+            data = request.data
+            if not data["email"] or data["email"] == "" or not isinstance(data["email"], str):
+                raise Exception("Invalid Request Body", 400)
+            
+            await self.__user_service.sendResetPasswordEmail(data["email"])
+
+            return Response({
+                "message": "Email has been sent"
+            })
+        except Exception as e:
+            msg = e.args[0]
+            if msg == "email":
+                return Response({
+                    "message": "Invalid request body"
+                }, status=400)
             try:
                 if msg and e.args[1]:
                     return Response({
