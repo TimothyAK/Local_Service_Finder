@@ -5,6 +5,7 @@ import SearchBar from "../../molecules/SearchBar/SearchBar.jsx";
 import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
+import InputGroup from '../../molecules/InputGroup/InputGroup.jsx';
 import "./homepage.css"; 
 import { UserContext } from '../../../context/UserContext.jsx';
 
@@ -12,6 +13,9 @@ const Homepage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [showPassDialog, setShowPassDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDeletePasswordDialog, setShowDeletePasswordDialog] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
   const navigate = useNavigate();
   const { userDetails, setUserDetails } = useContext(UserContext)
 
@@ -38,12 +42,31 @@ const Homepage = () => {
   const handleCancelResetPass = () =>{
     setShowPassDialog(false)
   }
+
+  const handleConfirmDelete = () =>{
+    setShowDeleteDialog(false)
+    setShowDeletePasswordDialog(true)
+  }
+
+  const handleCancelDelete = () => {
+  setShowDeleteDialog(false);
+};
+
+  const handlePasswordSubmit = () => {
+    setShowDeletePasswordDialog(false);
+    setDeletePassword("");
+  };
+
+  const handleCancelPasswordDialog = () => {
+    setShowDeletePasswordDialog(false);
+    setDeletePassword("");
+  };
   
   const userData = {
     name: userDetails.username,
     onSignOut: () => setShowSignOutDialog(true),
     onChangePassword: () => setShowPassDialog(true),
-    onDeleteAccount: () => console.log("Deleting account...")
+    onDeleteAccount: () => setShowDeleteDialog(true)
   };
 
   const handleSearchEnter = () => {
@@ -82,6 +105,16 @@ const Homepage = () => {
         />
       )}
 
+      {showDeleteDialog && (
+        <WarningDialog
+          message="Are you sure you want to delete your account?"
+          subMessage="If you delete your"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+          confirmText="Delete"
+        />
+      )}
+
       {showPassDialog && (
         <WarningDialog
           message="Are you sure you want to change password?"
@@ -90,6 +123,24 @@ const Homepage = () => {
           onCancel={handleCancelResetPass}
           confirmText="Confirm"
         />
+      )}
+
+      {showDeletePasswordDialog && (
+        <WarningDialog
+          message="Enter your password to confirm deletion"
+          onConfirm={handlePasswordSubmit}
+          onCancel={handleCancelPasswordDialog}
+          confirmText="Delete Account"
+        >
+          <InputGroup
+            label="Password"
+            id="delete-password"
+            type="password"
+            placeholder="Enter your password"
+            value={deletePassword}
+            onChange={(e) => setDeletePassword(e.target.value)}
+          />
+        </WarningDialog>
       )}
 
     </div>
