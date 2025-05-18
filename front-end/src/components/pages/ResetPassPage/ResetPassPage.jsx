@@ -1,22 +1,22 @@
 import React from 'react';
-import SignUpForm from '../../organism/SignupForm/SignupForm.jsx';
-import './SignupPage.css';
+import ResetPassForm from '../../organism/ResetPassForm/ResetPassForm.jsx';
+import './ResetPassPage.css';
 import wave from '../../../assets/wave.svg';
 import { motion } from 'framer-motion';
 
-const SignUpPage = () => {
+const ResetPassPage = () => {
   return (
     <motion.div
-      className="signup-page"
+      className="resetpass-page"
       initial={{ x: 300, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -300, opacity: 0 }}
       transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
     >
-      <SignUpForm />
+      <ResetPassForm />
       <img src={wave} alt="background wave" className="wave" />
     </motion.div>
   );
 };
 
-export default SignUpPage;
+export default ResetPassPage;

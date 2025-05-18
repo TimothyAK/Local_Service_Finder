@@ -7,6 +7,7 @@ import ServicePage from "./components/pages/ServicePage/ServicePage.jsx";
 import LoginPage from "./components/pages/LoginPage/LoginPage"; 
 import SignUpPage from './components/pages/SignupPage/SignupPage';
 import ForgotPassPage from "./components/pages/ForgotPassPage/ForgotPassPage.jsx";
+import ResetPassPage from "./components/pages/ResetPassPage/ResetPassPage.jsx";
 import "./App.css";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/map" element={<MapPage />} />
         <Route path="/service" element={<ServicePage />} />
         <Route path="/forgot-password" element={<ForgotPassPage />} />
+        <Route path="/reset-pass" element={<ResetPassPage />} />
       </Routes>
     </AnimatePresence>
   );
