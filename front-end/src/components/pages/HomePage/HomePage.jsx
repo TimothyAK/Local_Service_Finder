@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import Title from "../../atoms/Title/Title.js";
 import SearchBar from "../../molecules/SearchBar/SearchBar.jsx";
@@ -7,7 +8,6 @@ import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx"
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import InputGroup from '../../molecules/InputGroup/InputGroup.jsx';
 import "./homepage.css"; 
-import { UserContext } from '../../../context/UserContext.jsx';
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -16,15 +16,27 @@ const Homepage = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showDeletePasswordDialog, setShowDeletePasswordDialog] = useState(false);
   const [deletePassword, setDeletePassword] = useState("");
+  const [userDetails, setUserDetails] = useState({})
   const navigate = useNavigate();
-  const { userDetails, setUserDetails } = useContext(UserContext)
 
   useEffect(() => {
-    if(JSON.stringify(userDetails) == JSON.stringify({})) navigate("/login")
+    if(!localStorage.getItem("userJWT")) navigate("/login")
+    try {
+      setUserDetails(jwtDecode(localStorage.getItem("userJWT")))
+      // Access token information, e.g., decodedToken.username, decodedToken.exp
+        //   const currentTime = Date.now() / 1000;
+        //   if(decodedToken.exp < currentTime){
+        //       console.log("token expired")
+        //   } else {
+        //       console.log("token is valid")
+        //   }
+    } catch (error) {
+        navigate("/login")
+    }
   }, [])
 
   const handleConfirmSignOut = () =>{
-    setUserDetails({})
+    localStorage.setItem("userJWT", '')
     setShowSignOutDialog(false)
     navigate('/login')
   }
