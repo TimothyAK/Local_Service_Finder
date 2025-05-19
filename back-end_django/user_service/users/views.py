@@ -1,3 +1,5 @@
+import jwt
+import os
 from adrf.views import APIView
 from rest_framework.response import Response
 from .service import UserService
@@ -52,12 +54,19 @@ class LoginController(APIView):
             
             userData = await self.__user_service.verifyUser(data)
 
-            return Response({
+            userData = {
                 "userid": str(userData["userid"]),
                 "username": userData["username"],
                 "email": userData["email"]
+            }
+
+            token = jwt.encode(userData, os.getenv("JWT_SECRET"), 'HS256')
+
+            return Response({
+                "token": token
             })
         except Exception as e:
+            print(e)
             msg = e.args[0]
             if(msg == "password" or msg == "email"):
                 return Response({
