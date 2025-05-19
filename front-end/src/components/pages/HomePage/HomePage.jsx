@@ -21,16 +21,18 @@ const Homepage = () => {
 
   useEffect(() => {
     if(!localStorage.getItem("userJWT")) navigate("/login")
-    try {
-      setUserDetails(jwtDecode(localStorage.getItem("userJWT")))
-      // Access token information, e.g., decodedToken.username, decodedToken.exp
-        //   const currentTime = Date.now() / 1000;
-        //   if(decodedToken.exp < currentTime){
-        //       console.log("token expired")
-        //   } else {
-        //       console.log("token is valid")
-        //   }
+    try { 
+        const decodedToken = jwtDecode(localStorage.getItem("userJWT"))
+        setUserDetails(decodedToken)
+        console.log(jwtDecode(localStorage.getItem("userJWT")))
+        const currentTime = Date.now() / 1000
+        console.log(currentTime)
+        if(decodedToken.exp < currentTime){
+            localStorage.removeItem("userJWT")
+            navigate('/login')
+        }
     } catch (error) {
+        localStorage.removeItem("userJWT")
         navigate("/login")
     }
   }, [])
