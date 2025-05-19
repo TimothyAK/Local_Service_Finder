@@ -10,15 +10,15 @@ class JWTMiddleware():
 
     def __call__(self, request):
         try:
-            if(request.isProtected and request.headers['Jwt']):
-                print("Verifying JWT")
-                request.jwtPayload = jwt.decode(request.headers['Jwt'], self.JWT_SECRET, 'HS256')
+            if(request.isProtected and request.headers['access-token']):
+                print("Verifying Token")
+                request.jwtPayload = jwt.decode(request.headers['access-token'], self.JWT_SECRET, 'HS256')
 
             response = self.get_response(request)
             return response
         except Exception as e:
             response = Response({
-                "message": "Invalid JWT"
+                "message": "Invalid Token"
             }, status=401)
             response.accepted_renderer = JSONRenderer()
             response.accepted_media_type = "application/json"
