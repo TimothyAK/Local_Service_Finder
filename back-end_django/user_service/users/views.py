@@ -159,19 +159,18 @@ class DeleteAccountController(APIView):
 
     async def delete(self, request):
         try:
-            data = request.data
-            if (not data["email"] or data["email"] == "" or not isinstance(data["email"], str) or
-                not data["password"] or data["password"] == "" or not isinstance(data["password"], str)):
+            data = request.jwtPayload
+            if not data["email"] or data["email"] == "" or not isinstance(data["email"], str):
                 raise Exception("Invalid Request Body", 400)
             
-            await self.__user_service.deleteUser(data["email"], data["password"])
+            await self.__user_service.deleteUser(data["email"])
 
             return Response({
                 "message": "Account has been deleted"
             })
         except Exception as e:
             msg = e.args[0]
-            if msg == "email" or msg == "password":
+            if msg == "email":
                 return Response({
                     "message": "Invalid request body"
                 }, status=400)

@@ -12,8 +12,7 @@ class JWTMiddleware():
         try:
             if(request.isProtected and request.headers['Jwt']):
                 print("Verifying JWT")
-                jwtPayload = jwt.decode(request.headers['Jwt'], self.JWT_SECRET, 'HS256')
-                request.data = jwtPayload
+                request.jwtPayload = jwt.decode(request.headers['Jwt'], self.JWT_SECRET, 'HS256')
 
             response = self.get_response(request)
             return response
