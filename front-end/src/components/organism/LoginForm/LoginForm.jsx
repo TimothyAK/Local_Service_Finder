@@ -10,6 +10,7 @@ import './LoginForm.css';
 const LoginForm = () => {
   const [ userEmail, setUserEmail ] = useState("")
   const [ userPassword, setUserPassword ] = useState("")
+  const [ isLoading, setIsLoading ] = useState(false);
   const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
@@ -17,12 +18,15 @@ const LoginForm = () => {
     try {
         console.log("Logging in...");
         // Call backend user login API
+        setIsLoading(true)
         const loginResponse = await loginAPI(userEmail, userPassword)
-        // Set UserContext userDetails to userDetails from login API if credentials correct'
+        // Set userJWT in localStorage to JWT from login API if credentials are correct
         localStorage.setItem('userJWT', loginResponse.data.token)
+        setIsLoading(false)
         navigate('/');
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
+        setIsLoading(false)
         console.log(err.response.data.message)
     }
   };
@@ -51,7 +55,7 @@ const LoginForm = () => {
 
       <ForgotPass />
 
-      <NextButton type="submit">Login</NextButton>
+      <NextButton type="submit" isLoading={isLoading}>Login</NextButton>
       <SignupRedirect />
 
     </form>

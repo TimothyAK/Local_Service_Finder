@@ -8,6 +8,7 @@ import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx"
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
 import { deleteAccountAPI } from '../../../api/userAPI.js';
+import Loader from '../../atoms/Loader/Loader.jsx';
 import "./homepage.css"; 
 
 const Homepage = () => {
@@ -16,6 +17,7 @@ const Homepage = () => {
   const [showPassDialog, setShowPassDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [userDetails, setUserDetails] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,11 +58,14 @@ const Homepage = () => {
 
   const handleConfirmDelete = async () =>{
     try {
+        setIsLoading(true)
         await deleteAccountAPI(localStorage.getItem("userJWT"))
+        setIsLoading(false)
         setShowDeleteDialog(false);
         navigate("/login")
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
+        setIsLoading(false)
         console.log(err.response.data.message)
     }
   }
@@ -121,7 +126,7 @@ const Homepage = () => {
           subMessage="Changes can't be undone"
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
-          confirmText="Delete"
+          confirmText={isLoading ? <Loader isLoading={isLoading}></Loader> : "Delete"}
         />
       )}
 

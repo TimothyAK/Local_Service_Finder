@@ -9,6 +9,9 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .next-button:hover {

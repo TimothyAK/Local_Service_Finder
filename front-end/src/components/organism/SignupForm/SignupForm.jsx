@@ -9,16 +9,20 @@ const SignUpForm = () => {
   const [ userName, setUserName] = useState("")
   const [ userEmail, setUserEmail] = useState("")
   const [ userPassword, setUserPassword] = useState("")
+    const [ isLoading, setIsLoading ] = useState(false);
   const navigate = useNavigate(); 
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
         console.log("Signing up...");
+        setIsLoading(true)
         const signUpResponse = await signUpAPI(userName, userEmail, userPassword)
+        setIsLoading(false)
         navigate('/login');
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
+        setIsLoading(false)
         console.log(err.response.data.message)
     }
   };
@@ -55,7 +59,7 @@ const SignUpForm = () => {
         required
       />
 
-      <NextButton type="submit">Sign Up</NextButton>
+      <NextButton type="submit" isLoading={isLoading}>Sign Up</NextButton>
     </form>
   );
 };
