@@ -38,3 +38,11 @@ export const resetPasswordAPI = async (email, password, newPassword) => {
             }
         )
     }
+    
+export const deleteAccountAPI = async (token) => {
+        return axios.delete(`${BASE_URL}/delete_account/`, {
+            headers: {
+                "access-token": token
+            }
+        })
+    }

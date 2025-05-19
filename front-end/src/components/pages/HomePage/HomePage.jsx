@@ -7,6 +7,7 @@ import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
+import { deleteAccountAPI } from '../../../api/userAPI.js';
 import "./homepage.css"; 
 
 const Homepage = () => {
@@ -22,9 +23,7 @@ const Homepage = () => {
     try { 
         const decodedToken = jwtDecode(localStorage.getItem("userJWT"))
         setUserDetails(decodedToken)
-        console.log(jwtDecode(localStorage.getItem("userJWT")))
         const currentTime = Date.now() / 1000
-        console.log(currentTime)
         if(decodedToken.exp < currentTime){
             localStorage.removeItem("userJWT")
             navigate('/login')
@@ -55,8 +54,15 @@ const Homepage = () => {
     setShowPassDialog(false)
   }
 
-  const handleConfirmDelete = () =>{
-    setShowDeleteDialog(false)
+  const handleConfirmDelete = async () =>{
+    try {
+        await deleteAccountAPI(localStorage.getItem("userJWT"))
+        setShowDeleteDialog(false);
+        navigate("/login")
+    } catch (err) {
+        // Display error message. Bisa dipake buat show error di form.
+        console.log(err.response.data.message)
+    }
   }
 
   const handleCancelDelete = () => {
