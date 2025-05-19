@@ -1,5 +1,6 @@
 import jwt
 import os
+from datetime import datetime, timedelta, timezone
 from adrf.views import APIView
 from rest_framework.response import Response
 from .service import UserService
@@ -57,7 +58,8 @@ class LoginController(APIView):
             userData = {
                 "userid": str(userData["userid"]),
                 "username": userData["username"],
-                "email": userData["email"]
+                "email": userData["email"],
+                "exp": int((datetime.now(timezone.utc) + timedelta(hours=1)).timestamp())
             }
 
             token = jwt.encode(userData, os.getenv("JWT_SECRET"), 'HS256')
