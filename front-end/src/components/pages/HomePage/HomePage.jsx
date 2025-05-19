@@ -6,7 +6,6 @@ import SearchBar from "../../molecules/SearchBar/SearchBar.jsx";
 import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
-import InputGroup from '../../molecules/InputGroup/InputGroup.jsx';
 import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
 import "./homepage.css"; 
 
@@ -15,8 +14,6 @@ const Homepage = () => {
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [showPassDialog, setShowPassDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [showDeletePasswordDialog, setShowDeletePasswordDialog] = useState(false);
-  const [deletePassword, setDeletePassword] = useState("");
   const [userDetails, setUserDetails] = useState({})
   const navigate = useNavigate();
 
@@ -60,22 +57,12 @@ const Homepage = () => {
 
   const handleConfirmDelete = () =>{
     setShowDeleteDialog(false)
-    setShowDeletePasswordDialog(true)
   }
 
   const handleCancelDelete = () => {
-  setShowDeleteDialog(false);
+    setShowDeleteDialog(false);
 };
 
-  const handlePasswordSubmit = () => {
-    setShowDeletePasswordDialog(false);
-    setDeletePassword("");
-  };
-
-  const handleCancelPasswordDialog = () => {
-    setShowDeletePasswordDialog(false);
-    setDeletePassword("");
-  };
   
   const userData = {
     name: userDetails.username,
@@ -140,24 +127,6 @@ const Homepage = () => {
           onCancel={handleCancelResetPass}
           confirmText="Confirm"
         />
-      )}
-
-      {showDeletePasswordDialog && (
-        <WarningDialog
-          message="Enter your password to confirm deletion"
-          onConfirm={handlePasswordSubmit}
-          onCancel={handleCancelPasswordDialog}
-          confirmText="Delete Account"
-        >
-          <InputGroup
-            id="delete-password"
-            type="password"
-            placeholder="Enter your password"
-            value={deletePassword}
-            onChange={(e) => setDeletePassword(e.target.value)}
-            className="confirm-password-input"
-          />
-        </WarningDialog>
       )}
 
     </div>
