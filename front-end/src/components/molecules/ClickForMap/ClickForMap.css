@@ -1,0 +1,19 @@
+.click-for-map {
+  position: absolute;
+  bottom: 120px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+  
+.click-for-map-link {
+    color:#122c4f;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+.click-for-map-link:hover {
+    text-decoration: underline;
+    color:#122c4f
+  }
+  
