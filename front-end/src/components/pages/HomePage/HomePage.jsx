@@ -18,6 +18,7 @@ const Homepage = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [userDetails, setUserDetails] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [showLocationDialog, setShowLocationDialog] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,6 +93,18 @@ const Homepage = () => {
     }
   };
 
+  const getLocation = () => {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log("Latitude:", position.coords.latitude);
+      console.log("Longitude:", position.coords.longitude);
+    },
+    (error) => {
+      console.error("Error getting location:", error);
+    }
+  );
+};
+
   return (
     <div className="homepage">
       <div className="homepage-header">
@@ -137,6 +150,19 @@ const Homepage = () => {
           onConfirm={handleConfirmResetPass}
           onCancel={handleCancelResetPass}
           confirmText="Confirm"
+        />
+      )}
+
+      {showLocationDialog && (
+        <WarningDialog
+          message="Please enable your location service"
+          subMessage="Allowing location access helps us provide better suggestions."
+          onConfirm={() => {
+            setShowLocationDialog(false);
+            getLocation();
+          }}
+          onCancel={() => setShowLocationDialog(false)}
+          confirmText="Enable"
         />
       )}
 
