@@ -9,6 +9,7 @@ const ResetPassForm = () => {
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,11 +22,14 @@ const ResetPassForm = () => {
     e.preventDefault();
     try {
         console.log("Resetting password...");
+        setIsLoading(true)
         const resetPasswordResponse = await resetPasswordAPI(userEmail, userPassword, newPassword);
         localStorage.removeItem("requestId");
+        setIsLoading(false)
         navigate('/login');
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
+        setIsLoading(false)
         console.log(err.response.data.message)
     }
   };
@@ -68,7 +72,7 @@ const ResetPassForm = () => {
         required
       />
 
-      <NextButton type="submit">Reset Password</NextButton>
+      <NextButton type="submit" isLoading={isLoading}>Reset Password</NextButton>
     </form>
   );
 };
