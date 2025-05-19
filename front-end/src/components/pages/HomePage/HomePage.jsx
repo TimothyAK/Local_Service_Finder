@@ -7,6 +7,7 @@ import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import InputGroup from '../../molecules/InputGroup/InputGroup.jsx';
+import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
 import "./homepage.css"; 
 
 const Homepage = () => {
@@ -108,6 +109,8 @@ const Homepage = () => {
         />
         <CategoryList />
       </div>
+      
+    <ClickForMap />
 
       {showSignOutDialog && (
         <WarningDialog
