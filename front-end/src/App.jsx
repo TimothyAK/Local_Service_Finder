@@ -14,18 +14,6 @@ function App() {
   const [count, setCount] = useState(0);
   const location = useLocation();
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log("Latitude:", position.coords.latitude);
-        console.log("Longitude:", position.coords.longitude);
-      },
-      (error) => {
-        console.error("Error getting location:", error);
-      }
-    );
-  }, []);
-
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
