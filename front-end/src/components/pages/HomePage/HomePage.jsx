@@ -18,7 +18,7 @@ const Homepage = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [userDetails, setUserDetails] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [showLocationDialog, setShowLocationDialog] = useState(true);
+  const [showLocationDialog, setShowLocationDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,10 +35,14 @@ const Homepage = () => {
         localStorage.removeItem("userJWT")
         navigate("/login")
     }
+
+    if(!localStorage.getItem("userLoc")) setShowLocationDialog(true)
+    
   }, [])
 
   const handleConfirmSignOut = () =>{
-    localStorage.setItem("userJWT", '')
+    localStorage.removeItem("userJWT")
+    localStorage.removeItem('userLoc')
     setShowSignOutDialog(false)
     navigate('/login')
   }
@@ -96,8 +100,14 @@ const Homepage = () => {
   const getLocation = () => {
   navigator.geolocation.getCurrentPosition(
     (position) => {
-      console.log("Latitude:", position.coords.latitude);
-      console.log("Longitude:", position.coords.longitude);
+        const userLoc = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        }
+        
+        localStorage.setItem("userLoc", JSON.stringify(userLoc))
+    //   console.log("Latitude:", position.coords.latitude);
+    //   console.log("Longitude:", position.coords.longitude);
     },
     (error) => {
       console.error("Error getting location:", error);
@@ -160,6 +170,7 @@ const Homepage = () => {
           onConfirm={() => {
             setShowLocationDialog(false);
             getLocation();
+
           }}
           onCancel={() => setShowLocationDialog(false)}
           confirmText="Enable"
