@@ -14,7 +14,7 @@ const MapPage = () => {
     <div className="map-page">
       <div className="map-layout">
         <div className="map-container">
-          <MapDisplay location={searchQuery} />
+          <MapDisplay serviceType={searchQuery} />
         </div>
 
         <div className="side-panel">
