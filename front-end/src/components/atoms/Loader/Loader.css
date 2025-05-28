@@ -12,3 +12,9 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.loader.loader-search {
+    position: absolute;
+    top: 28%;
+    right: 15px;
+}

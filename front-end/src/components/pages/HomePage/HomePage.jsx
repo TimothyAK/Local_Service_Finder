@@ -10,6 +10,7 @@ import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
 import { deleteAccountAPI } from '../../../api/userAPI.js';
 import Loader from '../../atoms/Loader/Loader.jsx';
 import "./homepage.css"; 
+import { searchAPI } from '../../../api/searchAPI.js';
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -87,13 +88,24 @@ const Homepage = () => {
     onDeleteAccount: () => setShowDeleteDialog(true)
   };
 
-  const handleSearchEnter = () => {
+  const handleSearchEnter = async () => {
     if (searchQuery.trim()) {
-      navigate('/map', { 
-        state: { 
-          searchQuery: searchQuery 
-        } 
-      });
+      const userLoc = JSON.parse(localStorage.getItem("userLoc"))
+      setIsLoading(true)
+      try{
+        // setTimeout(() => setIsLoading(false), 2000)
+        const searchResult = await searchAPI(searchQuery, userLoc["latitude"], userLoc["longitude"], localStorage.getItem("userJWT"))
+        console.log(searchResult["data"])
+        setIsLoading(false)
+        navigate('/map', { 
+            state: { 
+                searchQuery: searchQuery,
+                searchResult: searchResult["data"]["data"]
+            } 
+        });
+      } catch (err) {
+        setIsLoading(false)
+      }
     }
   };
 
@@ -126,7 +138,8 @@ const Homepage = () => {
         <SearchBar 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onEnter={handleSearchEnter} 
+          onEnter={handleSearchEnter}
+          isLoading={isLoading} 
         />
         <CategoryList />
       </div>
@@ -149,7 +162,7 @@ const Homepage = () => {
           subMessage="Changes can't be undone"
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
-          confirmText={isLoading ? <Loader isLoading={isLoading}></Loader> : "Delete"}
+          confirmText={isLoading ? <Loader isLoading={showDeleteDialog && isLoading}></Loader> : "Delete"}
         />
       )}
 

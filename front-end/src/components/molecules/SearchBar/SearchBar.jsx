@@ -1,8 +1,9 @@
 import React from "react";
 import InputField from "../../atoms/InputField/InputField";
 import "./SearchBar.css"; 
+import Loader from "../../atoms/Loader/Loader";
 
-const SearchBar = ({ value, onChange, onEnter }) => { 
+const SearchBar = ({ value, onChange, onEnter, isLoading }) => { 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       onEnter?.(); 
@@ -19,6 +20,7 @@ const SearchBar = ({ value, onChange, onEnter }) => {
         onKeyDown={handleKeyDown}
         className="search-bar-input"
       />
+      <Loader isLoading={isLoading} location="search"></Loader>
     </div>
   );
 };
