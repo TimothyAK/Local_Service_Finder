@@ -10,6 +10,7 @@ const QuerySection = ({ query, onChange }) => {
         className="query-input"
         value={query}
         onChange={onChange}
+        readOnly
       />
     </div>
   );
