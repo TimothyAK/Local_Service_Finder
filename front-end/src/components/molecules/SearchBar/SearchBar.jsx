@@ -20,7 +20,7 @@ const SearchBar = ({ value, onChange, onEnter, isLoading }) => {
         onKeyDown={handleKeyDown}
         className="search-bar-input"
       />
-      <Loader isLoading={isLoading}></Loader>
+      <Loader isLoading={isLoading} location="search"></Loader>
     </div>
   );
 };

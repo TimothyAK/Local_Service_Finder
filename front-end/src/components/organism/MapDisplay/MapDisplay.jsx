@@ -11,7 +11,7 @@ const markerData = {
   'Entertainment': [{ lat: 37.7694, lng: -122.4862, title: 'Golden Gate Park' }],
 };
 
-const MapDisplay = ({ serviceType = 'F&B' }) => {
+const MapDisplay = ({ serviceType = 'F&B', locations }) => {
   const mapRef = useRef(null);           
   const mapInstanceRef = useRef(null); 
   const [loaded, setLoaded] = useState(false);
@@ -24,7 +24,7 @@ const MapDisplay = ({ serviceType = 'F&B' }) => {
     userLoc = null;
   }
 
-  const places = markerData[serviceType] || [];
+  const places = markerData[serviceType] || locations;
   const center = userLoc
     ? { lat: userLoc.latitude, lng: userLoc.longitude }
     : (places[0] || { lat: 37.7749, lng: -122.4194 });
