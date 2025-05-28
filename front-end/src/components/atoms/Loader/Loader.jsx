@@ -2,7 +2,7 @@ import './Loader.css'
 
 export default function Loader({ isLoading }) {
     return(
-        <div className="loader" style={{
+        <div id="loader" className="loader" style={{
             display: (!isLoading && 'none')
         }}></div> 
     )

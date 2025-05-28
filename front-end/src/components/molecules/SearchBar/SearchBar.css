@@ -31,3 +31,9 @@
   color: #122c4f; 
   opacity: 0.7; 
 }
+
+#loader {
+    position: absolute;
+    top: 28%;
+    right: 15px;
+}
