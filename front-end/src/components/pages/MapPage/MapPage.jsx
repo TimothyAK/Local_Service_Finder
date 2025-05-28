@@ -41,7 +41,7 @@ const MapPage = () => {
         onClick={() => navigate('/')} 
         className="back-button"
       >
-        ← Back to Service Sinder
+        ← Back to Fervice Sinder
       </button>
     </div>
 
