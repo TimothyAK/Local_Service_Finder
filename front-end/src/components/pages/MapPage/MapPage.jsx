@@ -33,7 +33,7 @@ const MapPage = () => {
 
         <div className="side-panel">
           <QuerySection query={searchQuery} />
-          <ReasoningSection />
+          <ReasoningSection searchResult={searchResult} />
         </div>
       </div>
 
