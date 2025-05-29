@@ -7,6 +7,7 @@ import CategoryList from "../../organism/CategoryList/CategoryList.jsx";
 import ProfileDropdown from "../../organism/ProfileDropDown/ProfileDropDown.jsx";
 import WarningDialog from "../../molecules/WarningDialog/WarningDialog.jsx";
 import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
+import MapSelectDialog from '../../molecules/MapSelectDialog/MapSelectDialog.jsx';
 import { deleteAccountAPI } from '../../../api/userAPI.js';
 import Loader from '../../atoms/Loader/Loader.jsx';
 import "./homepage.css"; 
@@ -20,6 +21,8 @@ const Homepage = () => {
   const [userDetails, setUserDetails] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [showLocationDialog, setShowLocationDialog] = useState(false);
+  const [showMapDialog, setShowMapDialog] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +43,19 @@ const Homepage = () => {
     if(!localStorage.getItem("userLoc")) setShowLocationDialog(true)
     
   }, [])
+
+  const handleOpenMapDialog = () => {
+  setShowMapDialog(true);
+  };
+
+  const handleCancelMapDialog = () => {
+    setShowMapDialog(false);
+  };
+
+  const handleConfirmMapDialog = (location) => {
+    localStorage.setItem("userLoc", JSON.stringify(location));
+    setShowMapDialog(false);
+  };
 
   const handleConfirmSignOut = () =>{
     localStorage.removeItem("userJWT")
@@ -144,8 +160,14 @@ const Homepage = () => {
         <CategoryList />
       </div>
       
-    <ClickForMap />
+    <ClickForMap onClick={handleOpenMapDialog} />
 
+      {showMapDialog && (
+      <MapSelectDialog
+          onConfirm={handleConfirmMapDialog}
+          onCancel={handleCancelMapDialog}
+        />
+      )}
       {showSignOutDialog && (
         <WarningDialog
           message="Are you sure you want to sign out?"
