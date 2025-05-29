@@ -5,7 +5,15 @@ class UserAmenityService:
         self.__userAmenity_repository = UserAmenityRepository()
 
     async def getUserAmenitiesByUserID(self, userID):
-        userAmenities = await self.__userAmenity_repository.getUserAmenitiesByUserID(userID)
+        result = await self.__userAmenity_repository.getUserAmenitiesByUserID(userID)
+
+        userAmenities = [{
+            "_id": str(userAmenity["_id"]),
+            "userID": userAmenity["userID"],
+            "amenityID": userAmenity["amenityID"],
+            "amenityName": userAmenity["amenityName"],
+            "isVisitted": userAmenity["isVisitted"]
+        } for userAmenity in result]
         return userAmenities
     
     async def createUserAmenity(self, newUserAmenityDoc):
