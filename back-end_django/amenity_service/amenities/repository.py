@@ -15,7 +15,7 @@ class AmenityRepository:
             relation["amenity"~"restaurant|fast_food|cafe|pub|bar|food_court|biergarten|ice_cream"]["name"]{userRange};
             relation["shop"~"bakery|confectionery|butcher|cheese|greengrocer|alcohol|beverages"]["name"]{userRange};
         );
-        out center tags 20;
+        out center tags;
         """
         amenityQueryShopping = f"""
         [out:json];
