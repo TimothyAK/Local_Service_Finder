@@ -15,7 +15,7 @@ const ServicePage = () => {
   return (
     <div className="service-page">
       <div className="service-layout">
-          <MapDisplay  />
+          <MapDisplay locations={searchResult} />
       </div>
 
       <button 
