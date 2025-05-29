@@ -15,10 +15,11 @@ class UserAmenityRepository:
         result = self.__UserAmenities.insert_one(newUserAmenityDoc)
         return result.inserted_id
     
-    def updateUserAmenity(self, userID, updatedUserAmenityDoc):
+    def updateUserAmenity(self, userID, amenityID, updatedUserAmenityDoc):
         result = self.__UserAmenities.update_one(
             {
-                "userID": userID
+                "userID": userID,
+                "amenityID": amenityID
             },
             {
                 "$set": updatedUserAmenityDoc
