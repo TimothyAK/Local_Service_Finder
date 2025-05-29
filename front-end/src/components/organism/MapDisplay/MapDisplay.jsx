@@ -3,15 +3,16 @@ import { Map, Marker } from '@vis.gl/react-maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './MapDisplay.css';
 
-const markerData = {
-  'F&B': [{ lat: 37.7749, lng: -122.4194, title: 'San Francisco - F&B Spot' }],
-  'Finance': [{ lat: 40.7128, lng: -74.0060, title: 'Wall Street - Finance Center' }],
-  'Shopping': [{ lat: 37.7842, lng: -122.4074, title: 'Union Square - Shopping' }],
-  'Healthcare': [{ lat: 37.7694, lng: -122.4064, title: 'UCSF Medical Center' }],
-  'Entertainment': [{ lat: 37.7694, lng: -122.4862, title: 'Golden Gate Park' }],
-};
+// Udah gk dipake
+// const markerData = {
+//   'F&B': [{ lat: 37.7749, lng: -122.4194, title: 'San Francisco - F&B Spot' }],
+//   'Finance': [{ lat: 40.7128, lng: -74.0060, title: 'Wall Street - Finance Center' }],
+//   'Shopping': [{ lat: 37.7842, lng: -122.4074, title: 'Union Square - Shopping' }],
+//   'Healthcare': [{ lat: 37.7694, lng: -122.4064, title: 'UCSF Medical Center' }],
+//   'Entertainment': [{ lat: 37.7694, lng: -122.4862, title: 'Golden Gate Park' }],
+// };
 
-const MapDisplay = ({ serviceType = 'F&B', locations }) => {
+const MapDisplay = ({ locations }) => {
   const mapRef = useRef(null);           
   const mapInstanceRef = useRef(null); 
   const [loaded, setLoaded] = useState(false);
@@ -24,7 +25,7 @@ const MapDisplay = ({ serviceType = 'F&B', locations }) => {
     userLoc = null;
   }
 
-  const places = markerData[serviceType] || locations;
+  const places = locations || [];
   const center = userLoc
     ? { lat: userLoc.latitude, lng: userLoc.longitude }
     : (places[0] || { lat: 37.7749, lng: -122.4194 });
