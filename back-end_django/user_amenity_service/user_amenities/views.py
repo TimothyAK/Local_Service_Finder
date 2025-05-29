@@ -7,15 +7,17 @@ class GetUserAmenitiesByUserIDController(APIView):
         super().__init__(**kwargs)
         self.__userAmenity_service = UserAmenityService()
 
-    async def get(self, request, userID):
+    async def get(self, request):
         try:
-            userAmenities = await self.__userAmenity_service.getUserAmenitiesByUserID(userID)
+            data = request.jwtPayload
+            userAmenities = await self.__userAmenity_service.getUserAmenitiesByUserID(data["userid"])
 
             return Response({
                 "data": userAmenities
             }, 200)
         except Exception as e:
             msg = e.args[0]
+
             try:
                 return Response({
                     "message": msg
@@ -30,28 +32,27 @@ class CreateUpdateUserAmenityController(APIView):
         super().__init__(**kwargs)
         self.__userAmenity_service = UserAmenityService()
 
-    async def post(self, request, userID, amenityID):
+    async def post(self, request, amenityID):
         try:
+            jwtPayload = request.jwtPayload
             data = request.data
             if(not isinstance(data["isVisitted"], bool) or
             not data["amenityName"] or data["amenityName"] == "" or not isinstance(data["amenityName"], str)):
                 raise Exception("Invalid request body", 400)
             
             newUserAmenityDoc = {
-                "userID": userID,
-                "amenityID": amenityID,
+                "userid": jwtPayload["userid"],
+                "amenityid": amenityID,
                 "amenityName": data["amenityName"],
                 "isVisitted": data["isVisitted"]
             }
-            userAmenityID = await self.__userAmenity_service.createUserAmenity(newUserAmenityDoc)
+            await self.__userAmenity_service.setUserAmenity(newUserAmenityDoc)
 
             return Response({
                 "message": "User Amenity has been set"
             })
         except Exception as e:
             msg = e.args[0]
-
-            print(e)
 
             try:
                 return Response({
