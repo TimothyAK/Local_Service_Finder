@@ -28,7 +28,7 @@ function CategoryList() {
             const searchResult = await nearbySearchAPI(category.serviceType, userLoc["latitude"], userLoc["longitude"], localStorage.getItem("userJWT"))
             navigate(category.to, { 
                 state: {
-                    searchResult: searchResult["data"]
+                    searchResult: searchResult["data"]["data"]
                 }
             })
           }}

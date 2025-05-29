@@ -63,7 +63,7 @@ const MapDisplay = ({ locations }) => {
           </Marker>
         )}
         {places.map((place, idx) => (
-          <Marker key={idx} longitude={place.lng} latitude={place.lat}>
+          <Marker key={idx} longitude={place.lon} latitude={place.lat}>
             <div className="marker-service" title={place.title} />
           </Marker>
         ))}
