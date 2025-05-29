@@ -10,7 +10,6 @@ class JWTMiddleware():
 
     def __call__(self, request):
         try:
-            print(request.headers["access-token"])
             if(request.isProtected and request.headers['access-token']):
                 print("Verifying Token")
                 request.jwtPayload = jwt.decode(request.headers['access-token'], self.JWT_SECRET, 'HS256')
