@@ -4,30 +4,37 @@ class UserAmenityRepository:
     def __init__(self):
         self.__UserAmenities = UserAmenities().getUserAmenitiesCollection()
 
-    async def getUserAmenitiesByUserID(self, userID):
+    async def getUserAmenitiesByUserID(self, userid):
         cursor = self.__UserAmenities.find({
-            "userID": userID
+            "userid": userid
         })
         userAmenities = [userAmenity async for userAmenity in cursor]
 
         return userAmenities
     
-    async def createUserAmenity(self, newUserAmenityDoc):
-        result = await self.__UserAmenities.insert_one(newUserAmenityDoc)
-        return result.inserted_id
+    def getUserAmenityByUserIDnAmenityID(self, userid, amentyid):
+        userAmenity = self.__UserAmenities.find_one({
+            "userid": userid,
+            "amenityid": amentyid
+        })
+        return userAmenity
     
-    async def updateUserAmenity(self, userID, amenityID, updatedUserAmenityDoc):
-        result = await self.__UserAmenities.update_one(
+    async def createUserAmenity(self, newUserAmenityDoc):
+        await self.__UserAmenities.insert_one(newUserAmenityDoc)
+    
+    async def updateUserAmenity(self, userid, amenityid, newUserAmenityDoc):
+        await self.__UserAmenities.update_one(
             {
-                "userID": userID,
-                "amenityID": amenityID
+                "userid": userid,
+                "amenityid": amenityid
             },
             {
-                "$set": updatedUserAmenityDoc
+                "$set": {
+                    "isVisitted": newUserAmenityDoc["isVisitted"],
+                    "amenityName": newUserAmenityDoc["amenityName"]
+                }
             }
         )
-
-        return result.modified_count > 0
     
 
     
