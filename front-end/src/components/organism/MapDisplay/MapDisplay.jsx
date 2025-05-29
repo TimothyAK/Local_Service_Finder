@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Map, Marker } from '@vis.gl/react-maplibre';
+import { Map, Marker, Popup } from '@vis.gl/react-maplibre';
+import { useLocation } from 'react-router-dom';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './MapDisplay.css';
 
@@ -13,9 +14,13 @@ import './MapDisplay.css';
 // };
 
 const MapDisplay = ({ locations }) => {
-  const mapRef = useRef(null);           
+  const mapRef = useRef(null); 
+  const location = useLocation();
+  const stateSearchResult = location.state?.searchResult || [];       
   const mapInstanceRef = useRef(null); 
   const [loaded, setLoaded] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [visitedPlaces, setVisitedPlaces] = useState({});
 
   let userLoc = null;
   try {
@@ -25,7 +30,11 @@ const MapDisplay = ({ locations }) => {
     userLoc = null;
   }
 
-  const places = locations || [];
+  const places = locations?.length ? locations : stateSearchResult.map((p, i) => ({
+  ...p,
+  title: p.title || p.name || `Place ${i + 1}`,
+}));
+
   const center = userLoc
     ? { lat: userLoc.latitude, lng: userLoc.longitude }
     : (places[0] || { lat: 37.7749, lng: -122.4194 });
@@ -40,6 +49,21 @@ const MapDisplay = ({ locations }) => {
       });
     }
   }, [loaded, userLoc]);
+
+  useEffect(() => {
+  const stored = localStorage.getItem('visitedPlaces');
+  if (stored) {
+    setVisitedPlaces(JSON.parse(stored));
+  }
+}, []);
+
+  const toggleVisited = (index) => {
+    setVisitedPlaces((prev) => {
+      const updated = { ...prev, [index]: !prev[index] };
+      localStorage.setItem('visitedPlaces', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   return (
     <div className="map-container">
@@ -63,10 +87,37 @@ const MapDisplay = ({ locations }) => {
           </Marker>
         )}
         {places.map((place, idx) => (
-          <Marker key={idx} longitude={place.lon} latitude={place.lat}>
-            <div className="marker-service" title={place.title} />
+          <Marker
+            key={idx}
+            longitude={place.lon}
+            latitude={place.lat}
+            onClick={() => setSelectedPlace({ ...place, index: idx })}
+          >
+            <div
+              className={`marker-service ${
+                visitedPlaces[idx] ? 'marker-visited' : ''
+              }`}
+              title={place.title}
+            />
           </Marker>
         ))}
+
+        {selectedPlace && (
+          <Popup
+            longitude={selectedPlace.lon}
+            latitude={selectedPlace.lat}
+            onClose={() => setSelectedPlace(null)}
+            closeOnClick={false}
+            anchor="top"
+          >
+            <div>
+              <h3 className='popup-title'>{selectedPlace.name}</h3>
+              <button onClick={() => toggleVisited(selectedPlace.index)} className='visit-btn'>
+                {visitedPlaces[selectedPlace.index] ? 'Visited' : 'Mark as Visited'}
+              </button>
+            </div>
+          </Popup>
+        )}
       </Map>
     </div>
   );
