@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom';
 import './ClickForMap.css';
 
-const ClickForMap = ({ to = "/select-map" }) => {
+const ClickForMap = ({ onClick }) => {
   return (
     <div className="click-for-map">
-      <Link to={to} className="click-for-map-link">
+      <a href="#" onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }} className="click-for-map-link">
         Click here to select your own map
-      </Link>
+      </a>
     </div>
   );
 };
