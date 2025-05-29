@@ -63,7 +63,7 @@ class AmenityRepository:
         );
         out center tags 10;
         """
-        if amenity_category.find("F&B") != -1:
+        if amenity_category.find("FNB") != -1:
             return amenityQueryFnB
         elif amenity_category.find("SHOPPING") != -1:
             return amenityQueryShopping
