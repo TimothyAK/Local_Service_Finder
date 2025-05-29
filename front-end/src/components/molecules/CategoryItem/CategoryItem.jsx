@@ -4,13 +4,11 @@ import Icon from "../../atoms/Icon/Icon.jsx";
 import Text from "../../atoms/Text/Text";
 import "./CategoryItem.css";
 
-function CategoryItem({ icon, label, to, state }) {
-  const navigate = useNavigate();
-
+function CategoryItem({ icon, label, onClick }) {
   return (
     <div 
       className="CategoryItem" 
-      onClick={() => navigate(to, { state })}
+      onClick={onClick}
     >
       <Icon icon={icon} />
       <Text text={label} />

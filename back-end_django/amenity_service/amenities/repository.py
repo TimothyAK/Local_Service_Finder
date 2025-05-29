@@ -29,9 +29,9 @@ class AmenityRepository:
         amenityQueryFinance = f"""
         [out:json];
         (
-            node["amenity"~"bank|atm|bureau_de_change"]{userRange};
-            way["amenity"~"bank|atm|bureau_de_change"]{userRange};
-            relation["amenity"~"bank|atm|bureau_de_change"]{userRange};
+            node["amenity"~"bank|atm|bureau_de_change"]["name"]{userRange};
+            way["amenity"~"bank|atm|bureau_de_change"]["name"]{userRange};
+            relation["amenity"~"bank|atm|bureau_de_change"]["name"]{userRange};
         );
         out center tags;
         """
