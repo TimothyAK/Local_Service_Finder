@@ -15,13 +15,7 @@ const MapPage = () => {
   const [locationMarkers, setLocationMarkers] = useState([])
 
   useEffect(() => {
-    const resultMarkers = searchResult.map((location) => {
-        return {
-            "lat": location["lat"],
-            "lng": location['lon']
-        }
-    })
-    setLocationMarkers(resultMarkers)
+    setLocationMarkers(searchResult)
   }, [])
 
   return (
