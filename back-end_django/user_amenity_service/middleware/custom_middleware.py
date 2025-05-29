@@ -29,7 +29,7 @@ class JWTMiddleware():
 class RouteProtectionMiddleware():
     def __init__(self, get_response):
         self.get_response = get_response
-        self.protected_routes = ['delete_account'] 
+        self.protected_routes = ['user_amenities'] # Set all endpoint in this API route to be protected
 
     def __call__(self, request):
         print("Setting protected route validation variable")
