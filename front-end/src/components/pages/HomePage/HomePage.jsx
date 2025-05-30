@@ -44,6 +44,10 @@ const Homepage = () => {
     
   }, [])
 
+  const openHistory = () => {
+    navigate("/history")
+  };
+
   const handleOpenMapDialog = () => {
   setShowMapDialog(true);
   };
@@ -101,7 +105,8 @@ const Homepage = () => {
     name: userDetails.username,
     onSignOut: () => setShowSignOutDialog(true),
     onChangePassword: () => setShowPassDialog(true),
-    onDeleteAccount: () => setShowDeleteDialog(true)
+    onDeleteAccount: () => setShowDeleteDialog(true),
+    onHistory: openHistory
   };
 
   const handleSearchEnter = async () => {
@@ -209,6 +214,7 @@ const Homepage = () => {
           }}
           onCancel={() => setShowLocationDialog(false)}
           confirmText="Enable"
+          confirmClassName="enable-btn"
         />
       )}
 

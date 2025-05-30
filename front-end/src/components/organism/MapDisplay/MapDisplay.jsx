@@ -72,7 +72,9 @@ const MapDisplay = ({ locations }) => {
         initialViewState={{
           longitude: center.lng,
           latitude: center.lat,
-          zoom: 12,
+            zoom: 14,
+            speed: 1.2,
+            curve: 1.5,
         }}
         mapStyle="https://tiles.openfreemap.org/styles/liberty"
         style={{ width: '100%', height: '100%' }}
