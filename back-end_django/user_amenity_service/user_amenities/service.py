@@ -1,4 +1,5 @@
 from .repository import UserAmenityRepository
+from bson import ObjectId
 
 class UserAmenityService:
     def __init__(self):
@@ -46,3 +47,34 @@ class UserAmenityService:
                 return await self.__userAmenity_repository.updateUserAmenity(newUserAmenityDoc["userid"], newUserAmenityDoc["amenityid"], newUserAmenityDoc)
         except: 
             raise Exception("Internal server error")
+        
+    async def bulkSetUserAmenity(self, userid, newUserAmenityDocs):
+        try:
+            userid = ObjectId(userid)
+            for doc in newUserAmenityDocs:
+                print(doc)
+                newUserAmenityDoc = {}
+                if doc.get('isVisitted') != None and isinstance(doc["isVisitted"], bool):
+                    newUserAmenityDoc["isVisitted"] = doc["isVisitted"]
+                if doc.get('name') != None and isinstance(doc["name"], str) and doc["name"] != "":
+                    newUserAmenityDoc["amenityName"] = doc["name"]
+
+                if not newUserAmenityDoc:
+                    continue
+
+                userAmenity = await self.__userAmenity_repository.getUserAmenityByUserIDnAmenityID(userid, doc["id"])
+
+                if not userAmenity:
+                    newUserAmenityDoc = {
+                        "userid": userid,
+                        "amenityid": doc["id"],
+                        "amenityName": newUserAmenityDoc["amenityName"],
+                        "isVisitted": newUserAmenityDoc["isVisitted"]
+                    }
+                    print(newUserAmenityDoc)
+                    await self.__userAmenity_repository.createUserAmenity(newUserAmenityDoc)
+                    continue
+                
+                await self.__userAmenity_repository.updateUserAmenity(userid, doc["id"], newUserAmenityDoc)
+        except Exception as e:
+            raise e
