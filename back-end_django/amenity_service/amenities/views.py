@@ -15,7 +15,7 @@ class NearbySearchController(APIView):
                 not queryParams.get("category") or queryParams.get("category") == ""):
                 raise Exception("Invalid request parameters", 400)
             
-            searchResult = self.__amenity_service.searchNearbyAmenities(float(queryParams.get("lat")), float(queryParams.get("lon")), queryParams.get("category"))
+            searchResult = self.__amenity_service.searchNearbyAmenities(float(queryParams.get("lat")), float(queryParams.get("lon")), queryParams.get("category"), request.headers["access-token"])
 
             return Response({
                 "data": searchResult

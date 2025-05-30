@@ -80,4 +80,16 @@ class AmenityRepository:
         searchResponse = requests.post(self.__base_url, data=amenityQuery)
         return searchResponse.json()["elements"]
 
+class UserAmenityRepository:
+    def __init__(self):
+        self.__base_url = "http://localhost:8002/api/user_amenities/"
 
+    def getUserAmenityByUserIDnAmenityID(self, jwtPayload, amenityid):
+        return requests.get(self.__base_url + str(amenityid) + "/", headers={
+            "access-token": jwtPayload
+        }).json()["data"]
+
+    def getUserAmenitiesByUserID(self, jwtPayload):
+        return requests.get(self.__base_url, headers={
+            "access-token": jwtPayload
+        }).json()["data"]
