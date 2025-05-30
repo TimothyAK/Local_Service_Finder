@@ -25,43 +25,35 @@ const MapDisplay = () => {
   const [places, setPlaces] = useState([])
   const [pendingUpdatedPlaces, setPendingUpdatedPlaces] = useState([])
   const [currentInterval, setCurrentInterval] = useState()
-
-
-  let userLoc = null;
-  try {
-    const userLocJSON = localStorage.getItem('userLoc');
-    userLoc = userLocJSON ? JSON.parse(userLocJSON) : null;
-  } catch {
-    userLoc = null;
-  }
+  const [center, setCenter] = useState({ lat: -6.17545, lng: -106.82702 })
 
   useEffect(() => {
+    let userLoc = null;
+    try {
+        const userLocJSON = localStorage.getItem('userLoc');
+        userLoc = userLocJSON ? JSON.parse(userLocJSON) : null;
+        setCenter({ lat: userLoc.latitude, lng: userLoc.longitude })
+    } catch {}
 
-  }, [places])
-
-  useEffect(() => {
     const initialPlaces = stateSearchResult.map((p, i) => ({
       ...p,
       title: p.name,
       index: i, 
     }));
+    
     setPlaces(initialPlaces);
-  }, [stateSearchResult]);
-
-  const center = userLoc
-    ? { lat: userLoc.latitude, lng: userLoc.longitude }
-    : (places[0] || { lat: 37.7749, lng: -122.4194 });
+  }, []);
 
   useEffect(() => {
-    if (loaded && userLoc && mapInstanceRef.current) {
+    if (loaded && mapInstanceRef.current) {
       mapInstanceRef.current.flyTo({
-        center: [userLoc.longitude, userLoc.latitude],
+        center: [center.lng, center.lat],
         zoom: 14,
         speed: 1.2,
         curve: 1.5,
       });
     }
-  }, [loaded, userLoc]);
+  }, [loaded])
 
   useEffect(() => {
     clearInterval(currentInterval)
@@ -116,11 +108,12 @@ const MapDisplay = () => {
         style={{ width: '100%', height: '100%' }}
         onLoad={({ target }) => {
           mapInstanceRef.current = target;
+          console.log("asdfadf")
           setLoaded(true);
         }}
       >
-        {userLoc && (
-          <Marker longitude={userLoc.longitude} latitude={userLoc.latitude}>
+        {center && (
+          <Marker longitude={center.lng} latitude={center.lat}>
             <div className="marker-user" title="Your Location" />
           </Marker>
         )}
