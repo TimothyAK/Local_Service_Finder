@@ -13,7 +13,7 @@ import './MapDisplay.css';
 //   'Entertainment': [{ lat: 37.7694, lng: -122.4862, title: 'Golden Gate Park' }],
 // };
 
-const MapDisplay = ({ locations }) => {
+const MapDisplay = () => {
   const mapRef = useRef(null); 
   const location = useLocation();
   const stateSearchResult = location.state?.searchResult || [];       
@@ -21,6 +21,8 @@ const MapDisplay = ({ locations }) => {
   const [loaded, setLoaded] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [visitedPlaces, setVisitedPlaces] = useState({});
+  const [places, setPlaces] = useState([])
+
 
   let userLoc = null;
   try {
@@ -30,10 +32,14 @@ const MapDisplay = ({ locations }) => {
     userLoc = null;
   }
 
-  const places = locations?.length ? locations : stateSearchResult.map((p, i) => ({
-  ...p,
-  title: p.title || p.name || `Place ${i + 1}`,
-}));
+  useEffect(() => {
+    const initialPlaces = stateSearchResult.map((p, i) => ({
+      ...p,
+      title: p.title || p.name || `Place ${i + 1}`,
+      index: i, 
+    }));
+    setPlaces(initialPlaces);
+  }, [stateSearchResult]);
 
   const center = userLoc
     ? { lat: userLoc.latitude, lng: userLoc.longitude }
@@ -93,12 +99,10 @@ const MapDisplay = ({ locations }) => {
             key={idx}
             longitude={place.lon}
             latitude={place.lat}
-            onClick={() => setSelectedPlace({ ...place })}
+            onClick={() => setSelectedPlace({ ...place, index:idx })}
           >
             <div
-              className={`marker-service ${
-                place["isVisitted"] ? 'marker-visited' : ''
-              }`}
+              className={`marker-service ${visitedPlaces[idx]} ? 'marker-visited: ''}`}
               title={place.title}
             />
           </Marker>
