@@ -22,13 +22,16 @@ class UserAmenityService:
         try:
             result = await self.__userAmenity_repository.getUserAmenityByUserIDnAmenityID(userid, amenityid)
 
-            userAmenity = {
-                "_id": str(result["_id"]),
-                "amenityid": result["amenityid"],
-                "amenityName": result["amenityName"],
-                "isVisitted": result["isVisitted"]
-            }
-            return userAmenity
+            if result != None:
+                userAmenity = {
+                    "_id": str(result["_id"]),
+                    "amenityid": result["amenityid"],
+                    "amenityName": result["amenityName"],
+                    "isVisitted": result["isVisitted"]
+                }
+            else: 
+                userAmenity = []
+            return userAmenity 
         except:
             raise Exception("Internal server error")
 
