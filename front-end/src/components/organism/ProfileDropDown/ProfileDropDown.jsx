@@ -3,7 +3,7 @@ import Icon from "../../atoms/Icon/Icon";
 import UserPopupMenu from "../../molecules/UserPopupMenu/UserPopupMenu";
 import "./ProfileDropdown.css";
 
-const ProfileDropdown = ({ name, onSignOut, onChangePassword, onDeleteAccount }) => {
+const ProfileDropdown = ({ name, onSignOut, onChangePassword, onHistory, onDeleteAccount }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -33,6 +33,7 @@ const ProfileDropdown = ({ name, onSignOut, onChangePassword, onDeleteAccount })
           userName={name}
           onSignOut={onSignOut}
           onChangePassword={onChangePassword}
+          onHistory={onHistory}
           onDeleteAccount={onDeleteAccount}
         />
       )}

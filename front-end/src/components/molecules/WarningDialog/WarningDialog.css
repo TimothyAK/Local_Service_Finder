@@ -53,3 +53,9 @@
   .confirm-btn:hover {
     background-color: #dd3333;
   }
+
+  .enable-btn {
+    background-color: #F0D637 !important;
+    color: white !important;
+    border: 1px solid #F0D637 !important;
+  }

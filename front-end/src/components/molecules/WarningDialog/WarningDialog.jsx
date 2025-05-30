@@ -1,7 +1,7 @@
 import React from 'react';
 import './WarningDialog.css';
 
-const WarningDialog = ({ message, subMessage, onCancel, onConfirm, confirmText = "Delete" }) => {
+const WarningDialog = ({ message, subMessage, onCancel, onConfirm, confirmText = "Delete", confirmClassName }) => {
   return (
     <div className="confirmation-dialog">
       <div className="dialog-content">
@@ -9,7 +9,7 @@ const WarningDialog = ({ message, subMessage, onCancel, onConfirm, confirmText =
         {subMessage && <p>{subMessage}</p>}
         <div className="dialog-buttons">
           <button onClick={onCancel} className="cancel-btn">Cancel</button>
-          <button onClick={onConfirm} className="confirm-btn">{confirmText}</button>
+          <button onClick={onConfirm} className={`confirm-btn ${confirmClassName || ''}`}>{confirmText}</button>
         </div>
       </div>
     </div>

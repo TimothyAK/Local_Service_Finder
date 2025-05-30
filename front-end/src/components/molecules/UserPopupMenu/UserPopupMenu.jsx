@@ -2,7 +2,7 @@ import React from 'react';
 import PopupItem from '../../atoms/PopupItem/PopupItem.jsx';
 import "./UserPopupMenu.css";
 
-const UserPopupMenu = ({ userName, onSignOut, onChangePassword, onDeleteAccount }) => {
+const UserPopupMenu = ({ userName, onSignOut, onChangePassword, onDeleteAccount, onHistory }) => {
   return (
     <div className="user-popup-menu">
       <div className="popup-header">
@@ -17,6 +17,10 @@ const UserPopupMenu = ({ userName, onSignOut, onChangePassword, onDeleteAccount 
         <PopupItem 
           label="Sign Out" 
           onClick={onSignOut}
+        />
+        <PopupItem 
+          label="History" 
+          onClick={onHistory}
         />
         <PopupItem 
           label="Delete Account" 
