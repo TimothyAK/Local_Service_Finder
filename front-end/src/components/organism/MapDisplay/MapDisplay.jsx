@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map, Marker, Popup } from '@vis.gl/react-maplibre';
 import { useLocation } from 'react-router-dom';
+import { bulkUpdateAPI } from '../../../api/userAmenityAPI';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './MapDisplay.css';
 
@@ -22,6 +23,8 @@ const MapDisplay = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [visitedPlaces, setVisitedPlaces] = useState({});
   const [places, setPlaces] = useState([])
+  const [pendingUpdatedPlaces, setPendingUpdatedPlaces] = useState([])
+  const [currentInterval, setCurrentInterval] = useState()
 
 
   let userLoc = null;
@@ -33,9 +36,13 @@ const MapDisplay = () => {
   }
 
   useEffect(() => {
+
+  }, [places])
+
+  useEffect(() => {
     const initialPlaces = stateSearchResult.map((p, i) => ({
       ...p,
-      title: p.title || p.name || `Place ${i + 1}`,
+      title: p.name,
       index: i, 
     }));
     setPlaces(initialPlaces);
@@ -57,18 +64,41 @@ const MapDisplay = () => {
   }, [loaded, userLoc]);
 
   useEffect(() => {
-  const stored = localStorage.getItem('visitedPlaces');
-  if (stored) {
-    setVisitedPlaces(JSON.parse(stored));
-  }
-}, []);
+    clearInterval(currentInterval)
 
-  const toggleVisited = (index) => {
-    setVisitedPlaces((prev) => {
-      const updated = { ...prev, [index]: !prev[index] };
-      localStorage.setItem('visitedPlaces', JSON.stringify(updated));
-      return updated;
-    });
+    const newInterval = setInterval(() => {
+        if(pendingUpdatedPlaces.length == 0) return
+        console.log("Updating data:", pendingUpdatedPlaces)
+        bulkUpdateAPI(pendingUpdatedPlaces, localStorage.getItem("userJWT"))
+        setPendingUpdatedPlaces([])
+    }, 3000)
+
+    setCurrentInterval(newInterval)
+
+    console.log("Current data:",pendingUpdatedPlaces)
+  }, [pendingUpdatedPlaces])
+
+  const toggleVisited = (place) => {
+    setPlaces(places.map(p => {
+        if(p["id"] == place["id"]) {
+            return {
+                ...place,
+                "isVisitted": !place["isVisitted"]
+            }
+        }
+        return p
+    }))
+    place['isVisitted'] = !place["isVisitted"]
+    if(pendingUpdatedPlaces.length == 0) {
+        setPendingUpdatedPlaces([place])
+    }
+    else {
+        for(let pendingPlace of pendingUpdatedPlaces) {
+            if(pendingPlace["id"] == place["id"]) 
+                return setPendingUpdatedPlaces(pendingUpdatedPlaces.filter(pendingPlace => pendingPlace["id"] != place["id"]))
+        }
+        return setPendingUpdatedPlaces([...pendingUpdatedPlaces, place])
+    }
   };
 
   return (
@@ -102,7 +132,7 @@ const MapDisplay = () => {
             onClick={() => setSelectedPlace({ ...place, index:idx })}
           >
             <div
-              className={`marker-service ${visitedPlaces[idx]} ? 'marker-visited: ''}`}
+              className={`marker-service ${place["isVisitted"] ? 'marker-visited' : ''}`}
               title={place.title}
             />
           </Marker>
@@ -118,7 +148,7 @@ const MapDisplay = () => {
           >
             <div>
               <h3 className='popup-title'>{selectedPlace.name}</h3>
-              <button onClick={() => toggleVisited(selectedPlace.index)} className='visit-btn'>
+              <button onClick={() => toggleVisited(selectedPlace)} className='visit-btn'>
                 {visitedPlaces[selectedPlace.index] ? 'Visited' : 'Mark as Visited'}
               </button>
             </div>
