@@ -29,10 +29,7 @@ class UserAmenityRepository:
                 "amenityid": amenityid
             },
             {
-                "$set": {
-                    "isVisitted": newUserAmenityDoc["isVisitted"],
-                    "amenityName": newUserAmenityDoc["amenityName"]
-                }
+                "$set": newUserAmenityDoc
             }
         )
     

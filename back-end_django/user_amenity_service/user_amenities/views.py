@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from bson import ObjectId
 from .service import UserAmenityService
 
-class GetUserAmenitiesByUserIDController(APIView):
+class UserAmenityController(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.__userAmenity_service = UserAmenityService()
@@ -16,6 +16,30 @@ class GetUserAmenitiesByUserIDController(APIView):
             return Response({
                 "data": userAmenities
             }, 200)
+        except Exception as e:
+            msg = e.args[0]
+
+            try:
+                return Response({
+                    "message": msg
+                }, e.args[1])
+            except:
+                return Response({
+                    "message": "Internal server error"
+                }, 500)
+            
+    async def post(self, request):
+        try:
+            jwtPayload = request.jwtPayload
+            data = request.data
+            if (not isinstance(data.get("list"), list)):
+                raise Exception("Invalid request body", 400)
+            
+            await self.__userAmenity_service.bulkSetUserAmenity(jwtPayload["userid"], data["list"])
+
+            return Response({
+                "message": "User amenities have been updated"
+            })
         except Exception as e:
             msg = e.args[0]
 

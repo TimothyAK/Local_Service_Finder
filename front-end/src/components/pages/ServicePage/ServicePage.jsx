@@ -8,10 +8,6 @@ const ServicePage = () => {
   const location = useLocation();
   const searchResult = location.state?.searchResult || [];
 
-  useEffect(() => {
-    console.log(searchResult)
-  }, [])
-
   return (
     <div className="service-page">
       <div className="service-layout">
