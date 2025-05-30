@@ -1,5 +1,6 @@
 from adrf.views import APIView
 from rest_framework.response import Response
+from bson import ObjectId
 from .service import UserAmenityService
 
 class GetUserAmenitiesByUserIDController(APIView):
@@ -10,7 +11,7 @@ class GetUserAmenitiesByUserIDController(APIView):
     async def get(self, request):
         try:
             data = request.jwtPayload
-            userAmenities = await self.__userAmenity_service.getUserAmenitiesByUserID(data["userid"])
+            userAmenities = await self.__userAmenity_service.getUserAmenitiesByUserID(ObjectId(data["userid"]))
 
             return Response({
                 "data": userAmenities
@@ -41,8 +42,8 @@ class CreateUpdateUserAmenityController(APIView):
                 raise Exception("Invalid request body", 400)
             
             newUserAmenityDoc = {
-                "userid": jwtPayload["userid"],
-                "amenityid": amenityID,
+                "userid": ObjectId(jwtPayload["userid"]),
+                "amenityid": int(amenityID),
                 "amenityName": data["amenityName"],
                 "isVisitted": data["isVisitted"]
             }
