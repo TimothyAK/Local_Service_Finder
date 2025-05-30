@@ -12,3 +12,11 @@ export const bulkUpdateAPI = async (updatedData, token) => {
     }
     )
 }
+
+export const getUserAmenityHistory = async (token) => {
+    return axios.get(`${BASE_URL}`, {
+        headers: {
+            "access-token": token
+        }
+    })
+}
