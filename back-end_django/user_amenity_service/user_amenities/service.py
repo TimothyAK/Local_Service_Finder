@@ -17,6 +17,21 @@ class UserAmenityService:
             return userAmenities
         except:
             raise Exception("Internal server error")
+        
+    async def getUserAmenityByUserIDnAmenityID(self, userid, amenityid):
+        try:
+            result = await self.__userAmenity_repository.getUserAmenityByUserIDnAmenityID(userid, amenityid)
+
+            userAmenity = {
+                "_id": str(result["_id"]),
+                "amenityid": result["amenityid"],
+                "amenityName": result["amenityName"],
+                "isVisitted": result["isVisitted"]
+            }
+            return userAmenity
+        except:
+            raise Exception("Internal server error")
+
     
     async def setUserAmenity(self, newUserAmenityDoc):
         try:
