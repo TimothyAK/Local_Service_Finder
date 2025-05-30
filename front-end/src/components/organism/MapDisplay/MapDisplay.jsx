@@ -93,11 +93,11 @@ const MapDisplay = ({ locations }) => {
             key={idx}
             longitude={place.lon}
             latitude={place.lat}
-            onClick={() => setSelectedPlace({ ...place, index: idx })}
+            onClick={() => setSelectedPlace({ ...place })}
           >
             <div
               className={`marker-service ${
-                visitedPlaces[idx] ? 'marker-visited' : ''
+                place["isVisitted"] ? 'marker-visited' : ''
               }`}
               title={place.title}
             />
