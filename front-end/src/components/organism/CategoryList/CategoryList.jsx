@@ -14,7 +14,7 @@ const categories = [
 
 // () => 
 
-function CategoryList() {
+function CategoryList({ onCategoryClick }) {
     const navigate = useNavigate()
   return (
     <div className="CategoryList">
@@ -24,6 +24,7 @@ function CategoryList() {
           icon={category.icon} 
           label={category.label} 
           onClick={async () => {
+            if (onCategoryClick) onCategoryClick();
             const userLoc = JSON.parse(localStorage.getItem("userLoc"))
             const searchResult = await nearbySearchAPI(category.serviceType, userLoc["latitude"], userLoc["longitude"], localStorage.getItem("userJWT"))
             navigate(category.to, { 

@@ -168,7 +168,7 @@ const Homepage = () => {
           onEnter={handleSearchEnter}
           isLoading={isLoading} 
         />
-        <CategoryList />
+        <CategoryList onCategoryClick={() => setIsLoading(true)} />
       </div>
       
     <ClickForMap onClick={handleOpenMapDialog} />
@@ -222,6 +222,13 @@ const Homepage = () => {
           confirmText="Enable"
           confirmClassName="enable-btn"
         />
+      )}
+
+      {isLoading && (
+        <div className="fullscreen-loader">
+          <Loader isLoading={isLoading} />
+          <p className="loader-message">Please wait while your service is being searched...</p>
+        </div>
       )}
 
     </div>
