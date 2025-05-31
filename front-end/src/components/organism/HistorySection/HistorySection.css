@@ -8,7 +8,7 @@
   
   .section-title {
     margin: 0 0 12px 0;
-    font-size: 18px;
+    font-size: 40px;
     color: #333;
   }
   
@@ -19,39 +19,68 @@
     padding: 0;
     color: #555;
     line-height: 1.5;
+    box-sizing: border-box;
   }
 
-  .history-content > tbody, thead {
+  .history-content * {
+    box-sizing: border-box;
+  }
+
+  .history-content tr {
     display: grid;
     width: 100%;
     grid-template-columns: 60% auto;
     margin: 0;
+    grid-column-gap: 8px;
   }
 
-  .history-content thead {
-    border-bottom: 2px solid black;
-  }
-
-  .history-content td {
+  .history-content > thead th {
+    font-weight: 700;
+    font-size: 25px;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid hsl(0, 0%, 80%);
-    padding: 8px 4px;
-    width: 100%;
-  }
-
-  .history-content > tbody > td:first-child {
     justify-content: start;
-    text-align: start;
-    text-transform: capitalize;
+    border-bottom: 2px solid black;
+    padding: 0px 6px;
   }
 
-  .history-content td > * {
+  .history-content > tbody td {
+    display: flex;
+    width: 100%;
+    border-bottom: 2px solid hsl(55, 40%, 84%);
+    padding: 8px 16px;
+  }
+
+  .history-content > tbody tr.tr-highlight td {
+    border-bottom: 3px solid hsl(55, 70%, 70%);
+  }
+
+  .history-content > tbody td:first-child {
+    justify-content: start;
+    align-items: center;
+    text-align: start;
+  }
+
+  .history-content > tbody td:last-child {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .history-content > tbody td > * {
     height: min-content
   }
 
-  .history-content td > button {
+  .history-content > tbody td:first-child {
+    font-weight: 600;
+  }
+
+  .history-content > tbody td > button {
+    width: auto;
+    background-color: #F0D637;
+    color: #3f3f3f;
     padding: 4px 12px;
   }
 
