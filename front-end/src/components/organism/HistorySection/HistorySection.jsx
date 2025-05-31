@@ -11,8 +11,8 @@ const HistorySection = ({ searchResult = [], setCenter }) => {
       <table className="history-content">
         <thead>
             <tr>
-            <th>Service Name</th>
-            <th>Actions</th>
+                <th>Service Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@ const HistorySection = ({ searchResult = [], setCenter }) => {
                 </td>
             </tr>
         ))}
-            </tbody>
+        </tbody>
       </table>
     </div>
   );
