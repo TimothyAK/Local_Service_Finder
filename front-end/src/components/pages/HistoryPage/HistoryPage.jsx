@@ -10,6 +10,8 @@ const HistoryPage = () => {
   const location = useLocation();
   const userHistory = location.state?.userHistory || '';
   const [currentCenter, setCurrentCenter] = useState({ lat: -6.17545, lng: -106.82702 })
+    const [currentService, setCurrentService] = useState(0)
+
 
   useEffect(() => {
     if(userHistory.length > 0) {
@@ -21,11 +23,11 @@ const HistoryPage = () => {
     <div className="map-page">
       <div className="map-layout">
         <div className="map-container">
-          <HistoryMap center={currentCenter}/>
+          <HistoryMap center={currentCenter} currentService={currentService}/>
         </div>
 
         <div className="side-panel">
-          <HistorySection userHistory={userHistory} setCenter={setCurrentCenter} />
+          <HistorySection userHistory={userHistory} setCenter={setCurrentCenter} currentService={currentService} setCurrentService={setCurrentService}  />
         </div>
       </div>
 

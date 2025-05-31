@@ -13,7 +13,7 @@ import './HistoryMap.css';
 //   'Entertainment': [{ lat: 37.7694, lng: -122.4862, title: 'Golden Gate Park' }],
 // };
 
-const HistoryMap = ({ center }) => {
+const HistoryMap = ({ center, currentService }) => {
     const mapRef = useRef(null); 
     const mapInstanceRef = useRef(null); 
     const [loaded, setLoaded] = useState(false);
@@ -49,7 +49,7 @@ const HistoryMap = ({ center }) => {
             >
                 {center && (
                 <Marker longitude={center.lng} latitude={center.lat}>
-                        <div className="marker-user" title="Your Location" />
+                        <div className="marker-visitted-service" title={currentService["amenityName"]} />
                 </Marker>
                 )}
             </Map>
