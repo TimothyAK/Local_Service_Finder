@@ -12,7 +12,7 @@ const HistorySection = ({ searchResult = [], setCenter }) => {
         <thead>
             <tr>
                 <th>Service Name</th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
