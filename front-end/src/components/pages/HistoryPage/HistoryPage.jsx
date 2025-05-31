@@ -25,7 +25,7 @@ const HistoryPage = () => {
         </div>
 
         <div className="side-panel">
-          <HistorySection searchResult={userHistory} setCenter={setCurrentCenter} />
+          <HistorySection userHistory={userHistory} setCenter={setCurrentCenter} />
         </div>
       </div>
 
