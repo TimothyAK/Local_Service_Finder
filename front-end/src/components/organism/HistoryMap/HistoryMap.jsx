@@ -15,20 +15,8 @@ import './HistoryMap.css';
 
 const HistoryMap = () => {
   const mapRef = useRef(null); 
-  const location = useLocation();
-  const stateSearchResult = location.state?.searchResult || [];       
   const mapInstanceRef = useRef(null); 
   const [loaded, setLoaded] = useState(false);
-  const [center, setCenter] = useState({ lat: -6.17545, lng: -106.82702 })
-
-  useEffect(() => {
-    let userLoc = null;
-    try {
-        const userLocJSON = localStorage.getItem('userLoc');
-        userLoc = userLocJSON ? JSON.parse(userLocJSON) : null;
-        setCenter({ lat: userLoc.latitude, lng: userLoc.longitude })
-    } catch {}
-  }, []);
 
   useEffect(() => {
     if (loaded && mapInstanceRef.current) {
