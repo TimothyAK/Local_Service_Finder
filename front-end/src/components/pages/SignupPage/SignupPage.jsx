@@ -2,20 +2,16 @@ import React from 'react';
 import SignUpForm from '../../organism/SignupForm/SignupForm.jsx';
 import './SignupPage.css';
 import wave from '../../../assets/wave.svg';
-import { motion } from 'framer-motion';
+import PageTransition from '../../atoms/PageTransition/PageTransition.jsx';
 
 const SignUpPage = () => {
   return (
-    <motion.div
-      className="signup-page"
-      initial={{ x: 300, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -300, opacity: 0 }}
-      transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
-    >
-      <SignUpForm />
-      <img src={wave} alt="background wave" className="wave" />
-    </motion.div>
+    <PageTransition type="slide"> 
+      <div className="signup-page">
+        <SignUpForm />
+        <img src={wave} alt="background wave" className="wave" />
+      </div>
+    </PageTransition>
   );
 };
 
