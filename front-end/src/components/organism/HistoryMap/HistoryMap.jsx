@@ -39,7 +39,7 @@ const HistoryMap = () => {
         curve: 1.5,
       });
     }
-  }, [loaded])
+  }, [loaded, center])
 
   return (
     <div className="map-container">
