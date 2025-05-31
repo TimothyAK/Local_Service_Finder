@@ -7,7 +7,7 @@ const HistorySection = ({ searchResult = [], setCenter }) => {
 
   return (
     <div className="history-section">
-      <h3 className="section-title">History</h3>
+      <h3 className="history-section-title">History</h3>
       <table className="history-content">
         <thead>
             <tr>

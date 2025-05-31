@@ -4,7 +4,7 @@ import './ReasoningSection.css';
 const ReasoningSection = ({ searchResult = [] }) => {
   return (
     <div className="reasoning-section">
-      <h3 className="section-title">Reasoning</h3>
+      <h3 className="reasoning-section-title">Reasoning</h3>
       <div className="reasoning-content">
         {searchResult != [] && searchResult.map((service) => (
             <div className="search-result-container">
