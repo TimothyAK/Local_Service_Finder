@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Button from '../../atoms/Button/Button'
 import './HistorySection.css';
 
 const HistorySection = ({ searchResult = [] }) => {
+
+    useEffect(() => {
+        console.log(searchResult)
+    })
+
   return (
-    <div className="reasoning-section">
+    <div className="history-section">
       <h3 className="section-title">History</h3>
-      <div className="reasoning-content">
+      <table className="history-content">
+        <thead>
+            <th>Service Name</th>
+            <th>Actions</th>
+        </thead>
         {searchResult != [] && searchResult.map((service) => (
-            <div className="search-result-container">
-                <p className="service-name">{service["service_name"]}</p>
-            </div>
+            <tbody className="search-result-container">
+                <td>{service["amenityName"]}</td>
+                <td><button>Visit Location</button></td>
+            </tbody>
         ))}
-      </div>
+      </table>
     </div>
   );
 };

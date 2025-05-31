@@ -1,4 +1,4 @@
-.reasoning-section {
+.history-section {
     border: 1px solid #122c4f;
     border-radius: 8px;
     padding: 16px;
@@ -12,12 +12,49 @@
     color: #333;
   }
   
-  .reasoning-content {
-    display: grid;
+  .history-content {
+    display: table;
+    /* border: solid 1px black;
+    border-radius: 4px; */
+    width: 100%;
     margin: 0;
     padding: 0;
     color: #555;
     line-height: 1.5;
+  }
+
+  .history-content > tbody, thead {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 60% auto;
+    margin: 0;
+  }
+
+  .history-content thead {
+    border-bottom: 2px solid black;
+  }
+
+  .history-content td {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid hsl(0, 0%, 80%);
+    padding: 8px 4px;
+    width: 100%;
+  }
+
+  .history-content > tbody > td:first-child {
+    justify-content: start;
+    text-align: start;
+    text-transform: capitalize;
+  }
+
+  .history-content td > * {
+    height: min-content
+  }
+
+  .history-content td > button {
+    padding: 4px 12px;
   }
 
 .search-result-container {
