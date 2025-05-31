@@ -13,6 +13,8 @@ class UserAmenityService:
                 "_id": str(userAmenity["_id"]),
                 "amenityid": userAmenity["amenityid"],
                 "amenityName": userAmenity["amenityName"],
+                "amenityLat": userAmenity["amenityLat"],
+                "amenityLon": userAmenity["amenityLon"],
                 "isVisitted": userAmenity["isVisitted"]
             } for userAmenity in result]
             return userAmenities
