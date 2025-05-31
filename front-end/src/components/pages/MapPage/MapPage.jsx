@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Marker } from '@vis.gl/react-maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import MapDisplay from '../../organism/MapDisplay/MapDisplay';
 import QuerySection from '../../organism/QuerySection/QuerySection';
+import ReasoningMap from '../../organism/ReasoningMap/ReasoningMap';
 import ReasoningSection from '../../organism/ReasoningSection/ReasoningSection';
 import './MapPage.css';
 
@@ -12,22 +11,18 @@ const MapPage = () => {
   const location = useLocation();
   const searchQuery = location.state?.searchQuery || '';
   const searchResult = location.state?.searchResult || '';
-  const [locationMarkers, setLocationMarkers] = useState([])
-
-  useEffect(() => {
-    setLocationMarkers(searchResult)
-  }, [])
+  const [currentService, setCurrentService] = useState(0);
 
   return (
     <div className="map-page">
       <div className="map-layout">
         <div className="map-container">
-          <MapDisplay serviceType={searchQuery} locations={locationMarkers}/>
+          <ReasoningMap currentService={currentService} />
         </div>
 
         <div className="side-panel">
           <QuerySection query={searchQuery} />
-          <ReasoningSection searchResult={searchResult} />
+          <ReasoningSection searchResult={searchResult} currentService={currentService} setCurrentService={setCurrentService} />
         </div>
       </div>
 

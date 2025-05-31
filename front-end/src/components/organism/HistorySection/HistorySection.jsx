@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import Button from '../../atoms/Button/Button'
 import './HistorySection.css';
 
-const HistorySection = ({ searchResult = [], setCenter }) => {
-    const [currentService, setCurrentService] = useState(0)
-
+const HistorySection = ({ userHistory = [], setCenter, currentService, setCurrentService }) => {
   return (
     <div className="history-section">
-      <h3 className="section-title">History</h3>
+      <h3 className="history-section-title">History</h3>
       <table className="history-content">
         <thead>
             <tr>
@@ -16,13 +14,13 @@ const HistorySection = ({ searchResult = [], setCenter }) => {
             </tr>
         </thead>
         <tbody>
-        {searchResult != [] && searchResult.map((service, idx) => (
+        {userHistory != [] && userHistory.map((service, idx) => (
             service["isVisitted"] &&
-            <tr key={idx} className={`search-result-container ${(currentService == idx) && "tr-highlight"}`}>
+            <tr key={idx} className={`user-history-container ${(currentService["amenityid"] == service["amenityid"]) && "tr-highlight"}`}>
                 <td>{service["amenityName"]}</td>
                 <td>
                     <button onClick={() => {
-                        setCurrentService(idx)
+                        setCurrentService(service)
                         setCenter({ lat: service["amenityLat"], lng: service["amenityLon"] })
                     }}>Check Location</button>
                 </td>

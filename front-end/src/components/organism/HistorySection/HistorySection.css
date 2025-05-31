@@ -6,13 +6,13 @@
     overflow-y: auto;
 }
 
-.section-title {
+.history-section-title {
     margin: 0 0 12px 0;
     font-size: 40px;
     color: #333;
 }
 
-.search-result-container {
+.user-history-container {
     display: flex;
     flex-direction: column;
     margin-bottom: 16px;
