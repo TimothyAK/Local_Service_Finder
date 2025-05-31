@@ -166,7 +166,7 @@ const Homepage = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onEnter={handleSearchEnter}
-          isLoading={isLoading} 
+          isLoading={isLoading && !showDeleteDialog} 
         />
         <CategoryList onCategoryClick={() => setIsLoading(true)} />
       </div>
@@ -224,7 +224,7 @@ const Homepage = () => {
         />
       )}
 
-      {isLoading && (
+      {isLoading && !showDeleteDialog && (
         <div className="fullscreen-loader">
           <Loader isLoading={isLoading} />
           <p className="loader-message">Please wait while your service is being searched...</p>
