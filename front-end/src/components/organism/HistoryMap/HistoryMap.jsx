@@ -36,9 +36,9 @@ const HistoryMap = () => {
         initialViewState={{
           longitude: center.lng,
           latitude: center.lat,
-            zoom: 0,
-            speed: 1.2,
-            curve: 1.5,
+            zoom:0,
+            speed:1.2,
+            curve:1.5
         }}
         mapStyle="https://tiles.openfreemap.org/styles/liberty"
         style={{ width: '100%', height: '100%' }}
