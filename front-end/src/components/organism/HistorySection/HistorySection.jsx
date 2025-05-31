@@ -17,6 +17,7 @@ const HistorySection = ({ searchResult = [], setCenter }) => {
         </thead>
         <tbody>
         {searchResult != [] && searchResult.map((service, idx) => (
+            service["isVisitted"] &&
             <tr key={idx} className={`search-result-container ${(currentService == idx) && "tr-highlight"}`}>
                 <td>{service["amenityName"]}</td>
                 <td>
