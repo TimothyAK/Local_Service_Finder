@@ -11,6 +11,7 @@ const LoginForm = () => {
   const [ userEmail, setUserEmail ] = useState("")
   const [ userPassword, setUserPassword ] = useState("")
   const [ isLoading, setIsLoading ] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
@@ -27,6 +28,7 @@ const LoginForm = () => {
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
+        setErrorMessage("Email or password is incorrect!");
         console.log(err.response.data.message)
     }
   };
@@ -52,6 +54,8 @@ const LoginForm = () => {
         onChange={(e) => setUserPassword(e.target.value)}
         required
       />
+
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
 
       <ForgotPass />
 
