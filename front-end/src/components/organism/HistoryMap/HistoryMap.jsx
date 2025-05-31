@@ -13,48 +13,48 @@ import './HistoryMap.css';
 //   'Entertainment': [{ lat: 37.7694, lng: -122.4862, title: 'Golden Gate Park' }],
 // };
 
-const HistoryMap = () => {
-  const mapRef = useRef(null); 
-  const mapInstanceRef = useRef(null); 
-  const [loaded, setLoaded] = useState(false);
+const HistoryMap = ({ center }) => {
+    const mapRef = useRef(null); 
+    const mapInstanceRef = useRef(null); 
+    const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    if (loaded && mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo({
-        center: [center.lng, center.lat],
-        zoom: 16,
-        speed: 1.2,
-        curve: 1.5,
-      });
-    }
-  }, [loaded, center])
+    useEffect(() => {
+        if (loaded && mapInstanceRef.current) {
+            mapInstanceRef.current.flyTo({
+                center: [center.lng, center.lat],
+                zoom: 16,
+                speed: 1.2,
+                curve: 1.5,
+            });
+        }
+    }, [loaded, center])
 
-  return (
-    <div className="map-container">
-      <Map
-        ref={mapRef}
-        initialViewState={{
-          longitude: center.lng,
-          latitude: center.lat,
-            zoom:0,
-            speed:1.2,
-            curve:1.5
-        }}
-        mapStyle="https://tiles.openfreemap.org/styles/liberty"
-        style={{ width: '100%', height: '100%' }}
-        onLoad={({ target }) => {
-          mapInstanceRef.current = target;
-          setLoaded(true);
-        }}
-      >
-        {center && (
-          <Marker longitude={center.lng} latitude={center.lat}>
-            <div className="marker-user" title="Your Location" />
-          </Marker>
-        )}
-      </Map>
-    </div>
-  );
+    return (
+        <div className="map-container">
+            <Map
+                ref={mapRef}
+                initialViewState={{
+                    longitude: center.lng,
+                    latitude: center.lat,
+                    zoom:0,
+                    speed:1.2,
+                    curve:1.5
+                }}
+                mapStyle="https://tiles.openfreemap.org/styles/liberty"
+                style={{ width: '100%', height: '100%' }}
+                onLoad={({ target }) => {
+                    mapInstanceRef.current = target;
+                    setLoaded(true);
+                }}
+            >
+                {center && (
+                <Marker longitude={center.lng} latitude={center.lat}>
+                        <div className="marker-user" title="Your Location" />
+                </Marker>
+                )}
+            </Map>
+        </div>
+    );
 };
 
 export default HistoryMap;   
