@@ -108,7 +108,6 @@ const MapDisplay = () => {
         style={{ width: '100%', height: '100%' }}
         onLoad={({ target }) => {
           mapInstanceRef.current = target;
-          console.log("asdfadf")
           setLoaded(true);
         }}
       >

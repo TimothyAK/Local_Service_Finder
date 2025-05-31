@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Button from '../../atoms/Button/Button'
 import './HistorySection.css';
 
-const HistorySection = ({ searchResult = [] }) => {
+const HistorySection = ({ searchResult = [], setCenter }) => {
+    const [currentService, setCurrentService] = useState(0)
+
   return (
-    <div className="reasoning-section">
+    <div className="history-section">
       <h3 className="section-title">History</h3>
-      <div className="reasoning-content">
-        {searchResult != [] && searchResult.map((service) => (
-            <div className="search-result-container">
-                <p className="service-name">{service["service_name"]}</p>
-            </div>
+      <table className="history-content">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {searchResult != [] && searchResult.map((service, idx) => (
+            <tr key={idx} className={`search-result-container ${(currentService == idx) && "tr-highlight"}`}>
+                <td>{service["amenityName"]}</td>
+                <td>
+                    <button onClick={() => {
+                        setCurrentService(idx)
+                        setCenter({ lat: service["amenityLat"], lng: service["amenityLon"] })
+                    }}>Check Location</button>
+                </td>
+            </tr>
         ))}
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 };

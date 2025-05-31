@@ -13,6 +13,8 @@ class UserAmenityService:
                 "_id": str(userAmenity["_id"]),
                 "amenityid": userAmenity["amenityid"],
                 "amenityName": userAmenity["amenityName"],
+                "amenityLat": userAmenity["amenityLat"],
+                "amenityLon": userAmenity["amenityLon"],
                 "isVisitted": userAmenity["isVisitted"]
             } for userAmenity in result]
             return userAmenities
@@ -52,12 +54,15 @@ class UserAmenityService:
         try:
             userid = ObjectId(userid)
             for doc in newUserAmenityDocs:
-                print(doc)
                 newUserAmenityDoc = {}
                 if doc.get('isVisitted') != None and isinstance(doc["isVisitted"], bool):
                     newUserAmenityDoc["isVisitted"] = doc["isVisitted"]
                 if doc.get('name') != None and isinstance(doc["name"], str) and doc["name"] != "":
                     newUserAmenityDoc["amenityName"] = doc["name"]
+                if doc.get('lat') != None and isinstance(doc["lat"], float) and doc["lat"] != 0:
+                    newUserAmenityDoc["amenityLat"] = doc["lat"]
+                if doc.get('lon') != None and isinstance(doc["lon"], float) and doc["lon"] != 0:
+                    newUserAmenityDoc["amenityLon"] = doc["lon"]
 
                 if not newUserAmenityDoc:
                     continue
@@ -68,10 +73,8 @@ class UserAmenityService:
                     newUserAmenityDoc = {
                         "userid": userid,
                         "amenityid": doc["id"],
-                        "amenityName": newUserAmenityDoc["amenityName"],
-                        "isVisitted": newUserAmenityDoc["isVisitted"]
+                        **newUserAmenityDoc
                     }
-                    print(newUserAmenityDoc)
                     await self.__userAmenity_repository.createUserAmenity(newUserAmenityDoc)
                     continue
                 

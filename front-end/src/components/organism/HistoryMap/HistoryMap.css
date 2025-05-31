@@ -1,0 +1,23 @@
+.map-container {
+  flex: 2;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #122c4f;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.marker-service {
+  width: 16px;
+  height: 16px;
+  background-color: #ff3b30;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(255, 59, 48, 0.8);
+  transform: translate(-50%, -50%);
+}

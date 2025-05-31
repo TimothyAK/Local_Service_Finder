@@ -1,24 +1,16 @@
-.reasoning-section {
+.history-section {
     border: 1px solid #122c4f;
     border-radius: 8px;
     padding: 16px;
     height: 100%;
     overflow-y: auto;
-  }
-  
-  .section-title {
+}
+
+.section-title {
     margin: 0 0 12px 0;
-    font-size: 18px;
+    font-size: 40px;
     color: #333;
-  }
-  
-  .reasoning-content {
-    display: grid;
-    margin: 0;
-    padding: 0;
-    color: #555;
-    line-height: 1.5;
-  }
+}
 
 .search-result-container {
     display: flex;
@@ -26,12 +18,84 @@
     margin-bottom: 16px;
 }
 
-.search-result-container > p {
-    text-align: left;
-    margin:0; padding:0;
+.history-content {
+    display: table;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #555;
+    line-height: 1.5;
+    box-sizing: border-box;
 }
 
-.search-result-container .service-name {
-    font-size: 24px;
-    color: #122c4f;
+.history-content * {
+    box-sizing: border-box;
+}
+
+.history-content tr {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 60% auto;
+    margin: 0;
+    grid-column-gap: 8px;
+}
+
+.history-content > thead th {
+    font-weight: 700;
+    font-size: 25px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-bottom: 2px solid black;
+    padding: 0px 6px;
+}
+
+.history-content > tbody td {
+    display: flex;
+    width: 100%;
+    border-bottom: 2px solid hsl(55, 40%, 84%);
+    padding: 8px 16px;
+}
+
+.history-content > tbody tr.tr-highlight td {
+    border-bottom: 3px solid hsl(55, 70%, 70%);
+}
+
+.history-content > tbody td:first-child {
+    justify-content: start;
+    align-items: center;
+    text-align: start;
+}
+
+.history-content > tbody td:last-child {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-content > tbody td>* {
+    height: min-content
+}
+
+.history-content > tbody td:first-child {
+    font-weight: 600;
+}
+
+.history-content > tbody td>button {
+    width: auto;
+    background-color: #5B88B2;
+    color: #FBF8F1;
+    padding: 7px 12px;
+    border: none;
+}
+
+.history-content > tbody td > button:hover {
+    color: #F0D637;
+    border: none;
+}
+
+.history-content > tbody td > button:focus, button:active {
+    outline: none;
 }

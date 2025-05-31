@@ -12,6 +12,7 @@ import { deleteAccountAPI } from '../../../api/userAPI.js';
 import Loader from '../../atoms/Loader/Loader.jsx';
 import "./homepage.css"; 
 import { searchAPI } from '../../../api/searchAPI.js';
+import { getUserAmenityHistory } from '../../../api/userAmenityAPI.js';
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -44,8 +45,13 @@ const Homepage = () => {
     
   }, [])
 
-  const openHistory = () => {
-    navigate("/history")
+  const openHistory = async () => {
+    const userHistory = await getUserAmenityHistory(localStorage.getItem("userJWT"))
+    navigate("/history", {
+        state: {
+            userHistory: userHistory["data"]["data"]
+        }
+    })
   };
 
   const handleOpenMapDialog = () => {
