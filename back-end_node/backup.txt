@@ -1,0 +1,98 @@
+const axios = require("axios");
+
+// Geocode address into lat/lng using Nominatim (OpenStreetMap)
+async function getLatLng(address) {
+  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+
+  try {
+    const res = await axios.get(url, {
+      headers: { 'User-Agent': 'LocalServiceFinder/1.0' }
+    });
+    if (res.data && res.data.length > 0) {
+      return {
+        lat: parseFloat(res.data[0].lat),
+        lng: parseFloat(res.data[0].lon)
+      };
+    }
+
+    console.error("Geocoding API error: No results found.");
+    throw new Error("Could not find location");
+  } catch (err) {
+    console.error("Error in getLatLng:", err.message);
+    throw err;
+  }
+}
+
+// Find nearby services using Overpass API (OpenStreetMap)
+async function findNearbyServices({ lat, lng }, keyword) {
+  const categoryMap = {
+    "fnb": [
+      { key: "amenity", value: "restaurant" },
+      { key: "amenity", value: "cafe" },
+      { key: "amenity", value: "fast_food" }
+    ],
+    "finance": [
+      { key: "amenity", value: "bank" },
+      { key: "amenity", value: "atm" }
+    ],
+    "shopping": [
+      { key: "shop", value: "mall" },
+      { key: "shop", value: "clothes" },
+      { key: "shop", value: "supermarket" },
+      { key: "shop", value: "convenience" }
+    ],
+    "healthcare": [
+      { key: "amenity", value: "hospital" },
+      { key: "amenity", value: "clinic" },
+      { key: "amenity", value: "pharmacy" }
+    ],
+    "entertainment": [
+      { key: "amenity", value: "cinema" },
+      { key: "amenity", value: "theatre" },
+      { key: "amenity", value: "arts_centre" }
+    ]
+  };
+
+  const filters = categoryMap[keyword.toLowerCase()];
+  if (!filters) {
+    console.error("Invalid category keyword:", keyword);
+    throw new Error("Invalid service category");
+  }
+
+  const overpassQuery = `
+    [out:json][timeout:25];
+    (
+      ${filters.map(f =>
+        `node["${f.key}"="${f.value}"](around:10000,${lat},${lng});`
+      ).join("\n")}
+    );
+    out body;
+  `;
+
+  try {
+    const res = await axios.post(
+      "https://overpass-api.de/api/interpreter",
+      `data=${encodeURIComponent(overpassQuery)}`,
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+    if (res.data && res.data.elements && res.data.elements.length > 0) {
+      return res.data.elements.map(place => ({
+        id: place.id,
+        name: place.tags?.name || "N/A",
+        lat: place.lat,
+        lng: place.lon,
+        type: place.tags?.amenity || place.tags?.shop || "N/A",
+        address: `${place.tags?.["addr:street"] || ""} ${place.tags?.["addr:housenumber"] || ""}`.trim() || "N/A"
+      }));
+    }
+
+    console.error("Overpass API response had no results.");
+    throw new Error("No services found");
+  } catch (err) {
+    console.error("Overpass API error:", err.response?.data || err.message);
+    throw new Error("No services found");
+  }
+}
+
+module.exports = { getLatLng, findNearbyServices };
