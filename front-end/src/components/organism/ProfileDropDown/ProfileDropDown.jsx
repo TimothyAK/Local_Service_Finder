@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Icon from "../../atoms/Icon/Icon";
 import UserPopupMenu from "../../molecules/UserPopupMenu/UserPopupMenu";
-import "./ProfileDropdown.css";
+import "./ProfileDropDown.css";
 
 const ProfileDropdown = ({ name, onSignOut, onChangePassword, onHistory, onDeleteAccount }) => {
   const [isOpen, setIsOpen] = useState(false);

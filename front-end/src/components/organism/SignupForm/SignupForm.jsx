@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputGroup from '../../molecules/InputGroup/InputGroup.jsx';
 import NextButton from '../../molecules/NextButton/NextButton.jsx';
 import { signUpAPI } from '../../../api/userAPI.js';
-import './SignUpForm.css';
+import './SignupForm.css';
 
 const SignUpForm = () => {
   const [ userName, setUserName] = useState("")

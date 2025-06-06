@@ -10,7 +10,7 @@ import ClickForMap from '../../molecules/ClickForMap/ClickForMap.jsx';
 import MapSelectDialog from '../../molecules/MapSelectDialog/MapSelectDialog.jsx';
 import { deleteAccountAPI } from '../../../api/userAPI.js';
 import Loader from '../../atoms/Loader/Loader.jsx';
-import "./homepage.css"; 
+import './HomePage.css' 
 import { searchAPI } from '../../../api/searchAPI.js';
 import { getUserAmenityHistory } from '../../../api/userAmenityAPI.js';
 

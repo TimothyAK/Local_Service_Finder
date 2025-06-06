@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  user_service:
+    build: ./back-end_django/user_service
+    ports:
+      - "8000:8000"
+
+  amenity_service:
+    build: ./back-end_django/amenity_service
+    ports:
+      - "8001:8001"
+
+  user_amenity_service:
+    build: ./back-end_django/user_amenity_service
+    ports:
+      - "8002:8002"
+
+  frontend:
+    build: ./front-end
+    ports:
+      - "5173:5173"
+    depends_on:
+      - user_service
+      - amenity_service
+      - user_amenity_service

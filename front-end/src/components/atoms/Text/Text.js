@@ -1,5 +1,5 @@
 import React from "react";
-import "./text.css";
+import "./Text.css";
 
 function Text(props) {
   return React.createElement("p", { className: "text-component" }, props.text);
