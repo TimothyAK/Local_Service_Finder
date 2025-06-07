@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const UserRouter = require("./router/UserAmenityRouter")
 
 const MONGO_URI = process.env.MONGO_URI
+const PORT = process.env.PORT
 
 mongoose.connect(MONGO_URI)
 
@@ -14,5 +15,5 @@ mongoose.connection.once("open", () => {
 
     app.use("/api/user_amenities/", UserRouter)
 
-    app.listen(8002, () => console.log("server running on port 8002"))
+    app.listen(PORT, () => console.log("server running on port " + PORT))
 })
