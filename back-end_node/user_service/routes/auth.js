@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Register
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const exists = await User.findOne({ $or: [{ username }, { email }] });
@@ -23,11 +23,9 @@ router.post("/register", async (req, res) => {
 
 // Login
 router.post("/login", async (req, res) => {
-  const { identifier, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const user = await User.findOne({
-      $or: [{ email: identifier }, { username: identifier }]
-    });
+    const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
     const valid = await bcrypt.compare(password, user.password);
@@ -40,6 +38,35 @@ router.post("/login", async (req, res) => {
     );
 
     res.json({ message: "Login successful", token });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.put("/reset_password", async (req, res) => {
+  const { email, password, newPassword } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Current password is incorrect" });
+
+    const hashedNew = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNew;
+    await user.save();
+
+    res.json({ message: "Password has been reset" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+const authMiddleware = require("../middleware/auth");
+router.delete("/delete_account", authMiddleware, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.user.userid);
+    res.json({ message: "Account has been deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
