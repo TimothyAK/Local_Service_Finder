@@ -66,19 +66,19 @@ func proxyRequest(w http.ResponseWriter, r *http.Request, targetURL string) {
 
 // Route handlers
 func UserHandler(w http.ResponseWriter, r *http.Request) {
-	path := strings.Replace(r.URL.Path, "/api/user/", "/api/users/", 1)
+	path := strings.Replace(r.URL.RequestURI(), "/api/user/", "/api/users/", 1)
 	target := "http://localhost:8000" + path
 	proxyRequest(w, r, target)
 }
 
 func AmenityHandler(w http.ResponseWriter, r *http.Request) {
-	path := strings.Replace(r.URL.Path, "/api/amenity/", "/api/amenities/", 1)
+	path := strings.Replace(r.URL.RequestURI(), "/api/amenity/", "/api/amenities/", 1)
 	target := "http://localhost:8001" + path
 	proxyRequest(w, r, target)
 }
 
 func UserAmenityHandler(w http.ResponseWriter, r *http.Request) {
-	path := strings.Replace(r.URL.Path, "/api/user-amenity/", "/api/user-amenities/", 1)
+	path := strings.Replace(r.URL.RequestURI(), "/api/user-amenity/", "/api/user_amenities/", 1)
 	target := "http://localhost:8002" + path
 	proxyRequest(w, r, target)
 }
