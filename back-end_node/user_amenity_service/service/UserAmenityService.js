@@ -45,7 +45,7 @@ class UserAmenityService {
 
                 const userAmenity = await UserAmenityRepository.getUserAmenitiesByUserIDnAmenityID(userid, doc["id"])
 
-                if(userAmenity == {}) {
+                if(userAmenity === null) {
                     newUserAmenityDoc = {
                         "userid": userid,
                         "amenityid": doc["id"],
