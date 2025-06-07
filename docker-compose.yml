@@ -1,26 +1,41 @@
-version: '3.9'
+  version: '3.9'
 
-services:
-  user_service:
-    build: ./back-end_django/user_service
-    ports:
-      - "8000:8000"
+  services:
+    user_service:
+      build: ./back-end_django/user_service
+      ports:
+        - "8000:8000"
+      networks:
+        - app_net 
 
-  amenity_service:
-    build: ./back-end_django/amenity_service
-    ports:
-      - "8001:8001"
+    amenity_service:
+      build: ./back-end_django/amenity_service
+      ports:
+        - "8001:8001"
+      networks:
+        - app_net  
 
-  user_amenity_service:
-    build: ./back-end_django/user_amenity_service
-    ports:
-      - "8002:8002"
+    user_amenity_service:
+      build: ./back-end_django/user_amenity_service
+      ports:
+        - "8002:8002"
+      environment:
+        - USER_AMENITY_SERVICE_URL=http://user-amenity-service:8002/api/user_amenities/
+      hostname: user-amenity-service
+      networks:
+        - app_net
 
-  frontend:
-    build: ./front-end
-    ports:
-      - "5173:5173"
-    depends_on:
-      - user_service
-      - amenity_service
-      - user_amenity_service
+    frontend:
+      build: ./front-end
+      ports:
+        - "5173:5173"
+      depends_on:
+        - user_service
+        - amenity_service
+        - user_amenity_service
+      networks:
+        - app_net  
+
+  networks:
+    app_net:
+      driver: bridge

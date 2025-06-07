@@ -1,4 +1,5 @@
 import requests
+import os
 
 class AmenityRepository:
     def __init__(self):
@@ -82,8 +83,10 @@ class AmenityRepository:
 
 class UserAmenityRepository:
     def __init__(self):
-        self.__base_url = 'http://user_amenity_service:8002/api/user_amenities/'
-
+        self.__base_url = os.getenv(
+            'USER_AMENITY_SERVICE_URL', 
+            'http://localhost:8002/api/user_amenities/'  
+        )
     def getUserAmenityByUserIDnAmenityID(self, jwtPayload, amenityid):
         return requests.get(self.__base_url + str(amenityid) + "/", headers={
             "access-token": jwtPayload
