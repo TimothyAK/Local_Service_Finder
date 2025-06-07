@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:8080/api/user-amenity/'
+const BASE_URL = 'http://localhost:8080/api/user-amenity'
 
 export const bulkUpdateAPI = async (updatedData, token) => {
     return axios.post(`${BASE_URL}`, {
