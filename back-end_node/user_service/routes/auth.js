@@ -3,6 +3,10 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
+const fs = require("fs")
+
+const htmlContent = fs.readFileSync("./htmls/emailContent.html", 'utf-8')
 
 // Register
 router.post("/signup", async (req, res) => {
@@ -42,6 +46,43 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.post("/request_reset", async (req, res) => {
+    const { email } = req.body
+
+    if (email == undefined || email == "" || typeof email != "string") {
+        return res.status(400).end("Invalid request body")
+    }
+
+    try {
+        // Create a transporter (example: using Gmail SMTP)
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'debooker.emailservice@gmail.com',
+                pass: process.env.EMAIL_APP_PASSWORD // Use App Passwords, not your Gmail password
+            }
+        });
+
+        // Define the email options
+        const mailOptions = {
+            from: '"Fervice Sinder" <debooker.emailservice@gmail.com>',
+            to: email,
+            subject: 'Reset Password Request',
+            html: htmlContent
+        };
+
+        // Send the email
+        await transporter.sendMail(mailOptions);
+
+        return res.json({
+            "message": "Email has been sent"
+        }).status(200)
+    } catch (err) {
+        return res.status(500).end("Internal server error")
+    }
+
+})
 
 router.put("/reset_password", async (req, res) => {
   const { email, password, newPassword } = req.body;
