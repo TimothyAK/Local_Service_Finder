@@ -64,6 +64,13 @@ router.put("/reset_password", async (req, res) => {
 
 router.delete("/delete_account", async (req, res) => {
   try {
+    const user = await User.findById(req.jwtPayload["userid"])
+    if(user == null) {
+        res.send({
+            "message": "User not found"
+        })
+        return res.status(404).end()
+    }
     await User.findByIdAndDelete(req.jwtPayload["userid"]);
     res.json({ message: "Account has been deleted" });
   } catch (err) {
