@@ -41,7 +41,8 @@ const Homepage = () => {
         navigate("/login")
     }
 
-    if(!localStorage.getItem("userLoc")) setShowLocationDialog(true)
+    if(!localStorage.getItem("userLoc") && localStorage.getItem("allowGetLocation") == undefined) setShowLocationDialog(true)
+    else if(localStorage.getItem("allowGetLocation") === "true") console.log("WOE")
     
   }, [])
 
@@ -70,6 +71,7 @@ const Homepage = () => {
   const handleConfirmSignOut = () =>{
     localStorage.removeItem("userJWT")
     localStorage.removeItem('userLoc')
+    localStorage.removeItem('allowGetLocation')
     setShowSignOutDialog(false)
     navigate('/login')
   }
@@ -145,8 +147,7 @@ const Homepage = () => {
         }
         
         localStorage.setItem("userLoc", JSON.stringify(userLoc))
-    //   console.log("Latitude:", position.coords.latitude);
-    //   console.log("Longitude:", position.coords.longitude);
+        localStorage.setItem("allowGetLocation", true)
     },
     (error) => {
       console.error("Error getting location:", error);
@@ -218,7 +219,11 @@ const Homepage = () => {
             getLocation();
 
           }}
-          onCancel={() => setShowLocationDialog(false)}
+          onCancel={() => {
+            setShowLocationDialog(false)
+            localStorage.setItem("allowGetLocation", false)
+
+          }}
           confirmText="Enable"
           confirmClassName="enable-btn"
         />
