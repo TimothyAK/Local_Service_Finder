@@ -100,7 +100,7 @@ const MapDisplay = () => {
         initialViewState={{
           longitude: center.lng,
           latitude: center.lat,
-            zoom: 14,
+            zoom:0,
             speed: 1.2,
             curve: 1.5,
         }}
@@ -141,7 +141,7 @@ const MapDisplay = () => {
             <div>
               <h3 className='popup-title'>{selectedPlace.name}</h3>
               <button onClick={() => toggleVisited(selectedPlace)} className='visit-btn'>
-                {visitedPlaces[selectedPlace.index] ? 'Visited' : 'Mark as Visited'}
+                {selectedPlace["isVisitted"] ? 'Visited' : 'Mark as Visited'}
               </button>
             </div>
           </Popup>

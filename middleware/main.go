@@ -44,7 +44,7 @@ func corsMiddleware(next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
-		log.Print(r)
+
 		// Forward to next handler
 		next.ServeHTTP(w, r)
 	})
