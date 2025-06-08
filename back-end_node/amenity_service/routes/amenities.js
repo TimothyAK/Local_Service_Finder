@@ -9,10 +9,11 @@ router.get("/nearby", async (req, res) => {
   if (!lat || !lon || !category) {
     return res.status(400).json({ error: "Missing required query parameters" });
   }
+  const userAmenityServiceURL = process.env.USER_AMENITY_SERVICE_URL || "http://localhost:8002/api/user_amenities/";
 
   try {
     const results = await findNearbyServices({ lat: parseFloat(lat), lng: parseFloat(lon), category });
-    const userAmenitiesResult = await axios.get("http://localhost:8002/api/user_amenities/", {
+    const userAmenitiesResult = await axios.get(userAmenityServiceURL, {
         headers: {
             "access-token": req.headers["access-token"]
         }

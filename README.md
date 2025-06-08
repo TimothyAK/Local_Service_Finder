@@ -18,3 +18,7 @@
 - Install django project requirements, ```pip install -r requirements.txt```
 - Move to ```user_service``` directory, ```cd user_service```
 - Run the server, ```uvicorn user_service.asgi:application```
+
+## Steps to run Docker
+- Run ```docker-compose -f docker-compose.django.yml up --build``` the first time to build the container(for django)
+- Run ```docker-compose -f docker-compose.node.yml up --build``` the first time to build the container(for node)

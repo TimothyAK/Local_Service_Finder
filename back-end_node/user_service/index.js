@@ -11,7 +11,8 @@ const corsOptions = {
         'http://localhost:8000', 
         'http://localhost:8001', 
         'http://localhost:8002',
-        "localhost"
+        "localhost",
+        'http://localhost:8080'
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: [
@@ -26,8 +27,11 @@ const corsOptions = {
 }
 
 const app = express();
-app.use(express.json());
+
 app.use(cors(corsOptions))
+
+app.use(express.json());
+
 app.use(JWTMiddleware.verifyToken)
 
 connectDB();
