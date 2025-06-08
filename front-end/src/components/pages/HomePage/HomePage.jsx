@@ -122,9 +122,7 @@ const Homepage = () => {
       const userLoc = JSON.parse(localStorage.getItem("userLoc"))
       setIsLoading(true)
       try{
-        // setTimeout(() => setIsLoading(false), 2000)
         const searchResult = await searchAPI(searchQuery, userLoc["latitude"], userLoc["longitude"], localStorage.getItem("userJWT"))
-        console.log(searchResult["data"])
         setIsLoading(false)
         navigate('/map', { 
             state: { 
