@@ -25,7 +25,7 @@ const MapDisplay = () => {
   const [places, setPlaces] = useState([])
   const [pendingUpdatedPlaces, setPendingUpdatedPlaces] = useState([])
   const [currentInterval, setCurrentInterval] = useState()
-  const [center, setCenter] = useState({ lat: -6.17545, lng: -106.82702 })
+  const [center, setCenter] = useState({ lat: -6.17545, lng: 106.82702 })
 
   useEffect(() => {
     let userLoc = null;
