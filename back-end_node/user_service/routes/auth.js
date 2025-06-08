@@ -62,10 +62,9 @@ router.put("/reset_password", async (req, res) => {
   }
 });
 
-const authMiddleware = require("../middleware/auth");
-router.delete("/delete_account", authMiddleware, async (req, res) => {
+router.delete("/delete_account", async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.user.userid);
+    await User.findByIdAndDelete(req.jwtPayload["userid"]);
     res.json({ message: "Account has been deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
