@@ -42,7 +42,7 @@ const Homepage = () => {
     }
 
     if(!localStorage.getItem("userLoc") && localStorage.getItem("allowGetLocation") == undefined) setShowLocationDialog(true)
-    else if(localStorage.getItem("allowGetLocation") === "true") console.log("WOE")
+    else if(localStorage.getItem("allowGetLocation") === "true") getLocation()
     
   }, [])
 
