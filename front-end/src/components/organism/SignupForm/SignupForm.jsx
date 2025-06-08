@@ -15,7 +15,6 @@ const SignUpForm = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-        console.log("Signing up...");
         setIsLoading(true)
         const signUpResponse = await signUpAPI(userName, userEmail, userPassword)
         setIsLoading(false)
@@ -23,7 +22,6 @@ const SignUpForm = () => {
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
-        console.log(err.response.data.message)
     }
   };
 

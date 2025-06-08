@@ -21,7 +21,6 @@ const ResetPassForm = () => {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-        console.log("Resetting password...");
         setIsLoading(true)
         const resetPasswordResponse = await resetPasswordAPI(userEmail, userPassword, newPassword);
         localStorage.removeItem("requestId");
@@ -30,7 +29,6 @@ const ResetPassForm = () => {
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
-        console.log(err.response.data.message)
     }
   };
 

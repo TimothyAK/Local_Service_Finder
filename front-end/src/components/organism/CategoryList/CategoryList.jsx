@@ -25,7 +25,10 @@ function CategoryList({ onCategoryClick }) {
           label={category.label} 
           onClick={async () => {
             if (onCategoryClick) onCategoryClick();
-            const userLoc = JSON.parse(localStorage.getItem("userLoc"))
+            const userLoc = JSON.parse(localStorage.getItem("userLoc")) || {
+                "latitude": -6.17545,
+                "longitude": 106.82702
+            }
             const searchResult = await nearbySearchAPI(category.serviceType, userLoc["latitude"], userLoc["longitude"], localStorage.getItem("userJWT"))
             navigate(category.to, { 
                 state: {

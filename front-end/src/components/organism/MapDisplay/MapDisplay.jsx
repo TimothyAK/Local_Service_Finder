@@ -25,7 +25,7 @@ const MapDisplay = () => {
   const [places, setPlaces] = useState([])
   const [pendingUpdatedPlaces, setPendingUpdatedPlaces] = useState([])
   const [currentInterval, setCurrentInterval] = useState()
-  const [center, setCenter] = useState({ lat: -6.17545, lng: -106.82702 })
+  const [center, setCenter] = useState({ lat: -6.17545, lng: 106.82702 })
 
   useEffect(() => {
     let userLoc = null;
@@ -60,14 +60,12 @@ const MapDisplay = () => {
 
     const newInterval = setInterval(() => {
         if(pendingUpdatedPlaces.length == 0) return
-        console.log("Updating data:", pendingUpdatedPlaces)
         bulkUpdateAPI(pendingUpdatedPlaces, localStorage.getItem("userJWT"))
         setPendingUpdatedPlaces([])
     }, 3000)
 
     setCurrentInterval(newInterval)
 
-    console.log("Current data:",pendingUpdatedPlaces)
   }, [pendingUpdatedPlaces])
 
   const toggleVisited = (place) => {
@@ -100,7 +98,7 @@ const MapDisplay = () => {
         initialViewState={{
           longitude: center.lng,
           latitude: center.lat,
-            zoom: 14,
+            zoom:0,
             speed: 1.2,
             curve: 1.5,
         }}
@@ -141,7 +139,7 @@ const MapDisplay = () => {
             <div>
               <h3 className='popup-title'>{selectedPlace.name}</h3>
               <button onClick={() => toggleVisited(selectedPlace)} className='visit-btn'>
-                {visitedPlaces[selectedPlace.index] ? 'Visited' : 'Mark as Visited'}
+                {selectedPlace["isVisitted"] ? 'Visited' : 'Mark as Visited'}
               </button>
             </div>
           </Popup>
