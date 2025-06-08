@@ -1,40 +1,51 @@
 package main
 
 import (
+	"localservicefinder/handlers"
 	"log"
 	"net/http"
-	"os"
+)
 
-	"local_service_finder/middleware/handlers"
-
-	"github.com/joho/godotenv"
+const (
+	yellow = "\033[33m"
+	cyan   = "\033[36m"
+	reset  = "\033[0m"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8081"
-	}
-
 	mux := http.NewServeMux()
 
-	// Health check
+	// API routes
+	mux.HandleFunc("/api/user/", handlers.UserHandler)
+	mux.HandleFunc("/api/amenity/", handlers.AmenityHandler)
+	mux.HandleFunc("/api/user-amenity/", handlers.UserAmenityHandler)
+	mux.HandleFunc("/api/search/", handlers.SearchHandler)
+
+	// logging
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Middleware is up and running"))
+		log.Printf("%s[MIDDLEWARE] Unhandled route: %s %s%s", yellow, r.Method, r.URL.Path, reset)
+		http.NotFound(w, r)
 	})
 
-	// Public routes
-	mux.HandleFunc("/api/users/signup", handlers.SignUpHandler)
-	mux.HandleFunc("/api/users/login", handlers.LoginHandler)
-	mux.HandleFunc("/api/users/request_reset", handlers.RequestResetHandler)
-	mux.HandleFunc("/api/users/reset_password", handlers.ResetPasswordHandler)
-	//mux.Handle("/api/users/delete_account", handlers.DeleteAccountHandler)
+	log.Printf("%s[MIDDLEWARE] Running on http://localhost:8080...%s", cyan, reset)
+	log.Fatal(http.ListenAndServe(":8080", corsMiddleware(mux)))
+}
 
-	log.Printf("Middleware listening on port %s\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, mux))
+// corsMiddleware
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// CORS headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, access-token")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+
+		// Handle OPTIONS preflight
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		log.Print(r)
+		// Forward to next handler
+		next.ServeHTTP(w, r)
+	})
 }
