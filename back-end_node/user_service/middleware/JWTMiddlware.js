@@ -5,21 +5,16 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const protectedRoutes = [
     {
-        path: "/api/users/delete_account",
+        path: "delete_account",
         method: "DELETE",
         allowPublicAccess: false
     },
-    {
-        path: "/",
-        method: "POST",
-        allowPublicAccess: false
-    }
 ];
 
 function verifyToken(req, res, next) {
     const userJWT = req.headers["access-token"];
 
-    const protectedRoute = protectedRoutes.find(route => (route.path === req.path && route.method === req.method));
+    const protectedRoute = protectedRoutes.find(route => (req.path.includes(route.path) && route.method === req.method));
     if(!protectedRoute) {
         return next();
     }
