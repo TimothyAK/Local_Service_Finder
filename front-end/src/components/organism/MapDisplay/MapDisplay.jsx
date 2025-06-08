@@ -100,7 +100,7 @@ const MapDisplay = () => {
         initialViewState={{
           longitude: center.lng,
           latitude: center.lat,
-            zoom: 14,
+            zoom:0,
             speed: 1.2,
             curve: 1.5,
         }}
