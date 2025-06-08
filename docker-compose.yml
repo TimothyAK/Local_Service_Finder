@@ -5,6 +5,7 @@
       build: ./back-end_django/user_service
       ports:
         - "8000:8000"
+      hostname: user-service
       networks:
         - app_net 
 
@@ -12,6 +13,9 @@
       build: ./back-end_django/amenity_service
       ports:
         - "8001:8001"
+      hostname: amenity-service
+      environment:
+        - USER_AMENITY_SERVICE_URL=http://user-amenity-service:8002/api/user_amenities/
       networks:
         - app_net  
 
@@ -30,11 +34,25 @@
       ports:
         - "5173:5173"
       depends_on:
+        - middleware
+      networks:
+        - app_net
+
+    middleware:
+      build: ./middleware
+      ports:
+        - "8080:8080"
+      environment:
+        - USER_SERVICE_URL=http://user-service:8000
+        - AMENITY_SERVICE_URL=http://amenity-service:8001
+        - USER_AMENITY_SERVICE_URL=http://user-amenity-service:8002
+      depends_on:
         - user_service
         - amenity_service
         - user_amenity_service
       networks:
-        - app_net  
+        - app_net
+        
 
   networks:
     app_net:

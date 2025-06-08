@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -64,22 +65,35 @@ func proxyRequest(w http.ResponseWriter, r *http.Request, targetURL string) {
 	log.Printf("%s[MIDDLEWARE] ← Response %d from %s%s", green, resp.StatusCode, targetURL, reset)
 }
 
+var (
+	userServiceURL        = getEnv("USER_SERVICE_URL", "http://localhost:8000")
+	amenityServiceURL     = getEnv("AMENITY_SERVICE_URL", "http://localhost:8001")
+	userAmenityServiceURL = getEnv("USER_AMENITY_SERVICE_URL", "http://localhost:8002")
+)
+
+func getEnv(key, fallback string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return fallback
+}
+
 // Route handlers
 func UserHandler(w http.ResponseWriter, r *http.Request) {
 	path := strings.Replace(r.URL.RequestURI(), "/api/user/", "/api/users/", 1)
-	target := "http://localhost:8000" + path
+	target := userServiceURL + path
 	proxyRequest(w, r, target)
 }
 
 func AmenityHandler(w http.ResponseWriter, r *http.Request) {
 	path := strings.Replace(r.URL.RequestURI(), "/api/amenity/", "/api/amenities/", 1)
-	target := "http://localhost:8001" + path
+	target := amenityServiceURL + path
 	proxyRequest(w, r, target)
 }
 
 func UserAmenityHandler(w http.ResponseWriter, r *http.Request) {
 	path := strings.Replace(r.URL.RequestURI(), "/api/user-amenity/", "/api/user_amenities/", 1)
-	target := "http://localhost:8002" + path
+	target := userAmenityServiceURL + path
 	proxyRequest(w, r, target)
 }
 
