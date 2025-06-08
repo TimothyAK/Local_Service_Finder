@@ -100,7 +100,6 @@ const Homepage = () => {
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
-        console.log(err.response.data.message)
     }
   }
 

@@ -60,14 +60,12 @@ const MapDisplay = () => {
 
     const newInterval = setInterval(() => {
         if(pendingUpdatedPlaces.length == 0) return
-        console.log("Updating data:", pendingUpdatedPlaces)
         bulkUpdateAPI(pendingUpdatedPlaces, localStorage.getItem("userJWT"))
         setPendingUpdatedPlaces([])
     }, 3000)
 
     setCurrentInterval(newInterval)
 
-    console.log("Current data:",pendingUpdatedPlaces)
   }, [pendingUpdatedPlaces])
 
   const toggleVisited = (place) => {
