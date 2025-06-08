@@ -79,7 +79,7 @@ class UserService:
 
         message = MIMEMultipart("alternative")
         message["Subject"] = "Reset Password Request"
-        message["From"] = sender_email
+        message["From"] = f"Fervice Sinder <{sender_email}>"
         message["To"] = receiver_email
 
         try:
