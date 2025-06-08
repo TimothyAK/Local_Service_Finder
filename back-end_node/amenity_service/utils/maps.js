@@ -26,6 +26,7 @@ async function getLatLng(address) {
 function getOverpassQuery(category, lat, lng) {
   const radius = 1000;
   const userRange = `(around:${radius},${lat},${lng})`;
+  category = category.toLowerCase()
 
   const queries = {
     fnb: `
