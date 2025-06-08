@@ -5,8 +5,8 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const protectedRoutes = [
     {
-        path: "/",
-        method: "GET",
+        path: "/api/users/delete_account",
+        method: "DELETE",
         allowPublicAccess: false
     },
     {
