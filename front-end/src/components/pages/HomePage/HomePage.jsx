@@ -42,7 +42,7 @@ const Homepage = () => {
     }
 
     if(!localStorage.getItem("userLoc") && localStorage.getItem("allowGetLocation") == undefined) setShowLocationDialog(true)
-    else if(localStorage.getItem("allowGetLocation") === "true") console.log("WOE")
+    else if(localStorage.getItem("allowGetLocation") === "true") getLocation()
     
   }, [])
 
@@ -100,7 +100,6 @@ const Homepage = () => {
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
-        console.log(err.response.data.message)
     }
   }
 
@@ -122,9 +121,7 @@ const Homepage = () => {
       const userLoc = JSON.parse(localStorage.getItem("userLoc"))
       setIsLoading(true)
       try{
-        // setTimeout(() => setIsLoading(false), 2000)
         const searchResult = await searchAPI(searchQuery, userLoc["latitude"], userLoc["longitude"], localStorage.getItem("userJWT"))
-        console.log(searchResult["data"])
         setIsLoading(false)
         navigate('/map', { 
             state: { 

@@ -13,7 +13,6 @@ const ForgotPassForm = () => {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-        console.log("Sending reset link...");
         setIsLoading(true)
         const requestResetResponse = await requestResetAPI(userEmail)
         localStorage.setItem("requestId", userEmail)
@@ -22,7 +21,6 @@ const ForgotPassForm = () => {
     } catch (err) {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
-        console.log(err.response.data.message)
     }
   };
 

@@ -17,7 +17,6 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        console.log("Logging in...");
         // Call backend user login API
         setIsLoading(true)
         const loginResponse = await loginAPI(userEmail, userPassword)
@@ -29,7 +28,6 @@ const LoginForm = () => {
         // Display error message. Bisa dipake buat show error di form.
         setIsLoading(false)
         setErrorMessage("Email or password is incorrect!");
-        console.log(err.response.data.message)
     }
   };
 
