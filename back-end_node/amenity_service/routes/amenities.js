@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { findNearbyServices } = require("../utils/maps");
-const authMiddleware = require("../middleware/auth"); // Ensure this path is correct
 
-router.get("/nearby", authMiddleware, async (req, res) => {
+router.get("/nearby", async (req, res) => {
   const { lat, lon, category } = req.query;
 
   if (!lat || !lon || !category) {
