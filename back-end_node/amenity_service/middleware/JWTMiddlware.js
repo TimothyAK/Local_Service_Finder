@@ -19,7 +19,7 @@ const protectedRoutes = [
 function verifyToken(req, res, next) {
     const userJWT = req.headers["access-token"];
 
-    const protectedRoute = protectedRoutes.find(route => (route.path === req.path && route.method === req.method));
+    const protectedRoute = protectedRoutes.find(route => (req.path.include(route.path) && route.method === req.method));
     if(!protectedRoute) {
         return next();
     }
