@@ -1,6 +1,6 @@
 const express = require("express")
 const UserAmenityController = require("../controller/UserAmenityController")
-const JWTMiddleware = require("../JWTMiddlware")
+const JWTMiddleware = require("../middleware/JWTMiddlware")
 
 const router = express.Router()
 
